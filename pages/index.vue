@@ -91,7 +91,6 @@ export default {
       let category = this.$store.state.categorys[index];
       console.log("categoryChoose ", category);
       this.activeIndex = index;
-      // this.categoryIdActive = this.categoryIdActiveGet();
       this.getGoodsList();
     },
     async getGoodsList() {
