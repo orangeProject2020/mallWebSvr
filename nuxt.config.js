@@ -37,7 +37,9 @@ module.exports = {
   /*
    ** Global CSS
    */
-  css: [],
+  css: [
+    'tailwindcss/dist/tailwind.css'
+  ],
   /*
    ** Plugins to load before mounting the App
    */

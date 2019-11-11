@@ -7,26 +7,30 @@
       <van-swipe-item>4</van-swipe-item>
     </van-swipe>
 
-    <van-tree-select
-      height
-      :items="categorys"
-      :main-active-index.sync="activeIndex"
-      @click-nav="categoryChoose"
-    >
-      <template slot="content">
-        <template v-for="item in goodsList">
-          <van-card
-            tag="标签"
-            :price="item.price/100"
-            :desc="item.description"
-            :title="item.name"
-            thumb="https://img.yzcdn.cn/vant/t-thirt.jpg"
-            :origin-price="item.price_market / 100"
-            @click="goToDetail(item)"
-          />
+    <div class="border-t">
+      <van-tree-select
+        height
+        :items="categorys"
+        :main-active-index.sync="activeIndex"
+        @click-nav="categoryChoose"
+      >
+        <template slot="content">
+          <template v-for="item in goodsList">
+            <van-card
+              tag="标签"
+              :price="item.price/100"
+              :desc="item.description"
+              :title="item.name"
+              thumb="https://img.yzcdn.cn/vant/t-thirt.jpg"
+              :origin-price="item.price_market / 100"
+              @click="goToDetail(item)"
+              class="border-b border-l"
+              style="margin-top:0"
+            />
+          </template>
         </template>
-      </template>
-    </van-tree-select>
+      </van-tree-select>
+    </div>
   </div>
 </template>
 <script>
