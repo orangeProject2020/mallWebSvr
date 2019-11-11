@@ -3,7 +3,16 @@
     <nuxt />
   </div>
 </template>
-
+<script>
+export default {
+  created() {
+    document.addEventListener("UniAppJSBridgeReady", () => {
+      // console.log('UniAppJSBridgeReady');
+      this.$store.commit("isAppSet", true);
+    });
+  }
+};
+</script>
 <style>
 html {
   font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI",

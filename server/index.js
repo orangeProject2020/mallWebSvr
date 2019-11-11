@@ -67,6 +67,9 @@ async function start() {
 
   app.use(cors())
 
+  let authMids = require('./auth')
+  app.use(authMids.getInfoByToken)
+
   app.use("/api", require("./api"));
 
   app.use(async (req, res, next) => {

@@ -3,6 +3,18 @@ const router = express.Router();
 const request = require("./request");
 const config = require('./../nuxt.config.js').api
 
+router.use((req, res, next) => {
+  req.checkUser = (req, res) => {
+    if (!req.session.user_id) {
+      return {
+        code: -100,
+        message: 'auth error'
+      }
+    }
+  }
+
+  next()
+})
 router.post("/auth/logout", async (req, res) => {
   req.session.token = "";
   console.log('/api/auth/logout ', req.session.token)
@@ -35,6 +47,13 @@ router.use(async (req, res) => {
   console.log('/api url', url)
 
   let data = req.body || {}
+
+  let userId = req.session.user_id || ''
+  if (userId) {
+    data.user_id = userId
+  }
+  data.business_id = req.session.business_id || 0
+  console.log('/api data:', data)
 
   let Request = new request({
     channel_id: config.channel_id,
