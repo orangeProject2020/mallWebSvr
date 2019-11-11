@@ -19,25 +19,7 @@ export const mutations = {
     state.categoryActive = data
   },
   goodsDataSet(state, data = {}) {
-    let categoryId = data.category_id || 0
-    let limit = data.limit || 10
-    if (!state.goodsData['category_' + categoryId]) {
-      state.goodsData['category_' + categoryId] = {
-        rows: [],
-        count: 0,
-        page: 1
-      }
-    }
-
-    data.rows.forEach(item => {
-      state.goodsData['category_' + categoryId].rows.push(item)
-    })
-    state.goodsData['category_' + categoryId].count = data.count
-    if (limit > 0 && data.rows.length == limit) {
-      state.goodsData['category_' + categoryId].page = data.page + 1
-    }
-
-
+    state.goodsData = data
   }
 }
 
