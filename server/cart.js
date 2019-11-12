@@ -36,6 +36,7 @@ router.post('/plus', async (req, res) => {
   }
 
   req.session.cart = items
+  console.log('/ plus', req.session.cart)
 
   return res.json(items)
 
@@ -69,6 +70,7 @@ router.post('/minus', async (req, res) => {
 
 router.post('/clear', async (req, res) => {
   req.session.cart = []
+  console.log('/ clear', req.session.cart)
   return res.json([])
 })
 

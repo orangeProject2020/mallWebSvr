@@ -132,13 +132,14 @@ export default {
     },
     goCart() {
       console.log("/goCart isApp:", this.$store.state.isApp);
-      if (this.$store.state.isApp) {
-        uni.switchTab({
-          url: "/pages/cart/index"
-        });
-      } else {
-        this.$router.push("/cart");
-      }
+      // if (this.$store.state.isApp) {
+      //   uni.switchTab({
+      //     url: "/pages/cart/index"
+      //   });
+      // } else {
+      //   this.$router.push("/cart");
+      // }
+      this.$router.push("/cart");
     },
     onClickIcon() {
       // Toast("点击图标");
