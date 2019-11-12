@@ -1,40 +1,46 @@
 <template>
   <div>
-    <van-swipe :autoplay="3000" indicator-color="blue" :height="200">
-      <van-swipe-item>1</van-swipe-item>
-      <van-swipe-item>2</van-swipe-item>
-      <van-swipe-item>3</van-swipe-item>
-      <van-swipe-item>4</van-swipe-item>
-    </van-swipe>
-
-    <div class="border-t">
-      <van-tree-select
-        height
-        :items="categorys"
-        :main-active-index.sync="activeIndex"
-        @click-nav="categoryChoose"
-      >
-        <template slot="content">
-          <template v-for="item in goodsList">
-            <van-card
-              tag="标签"
-              :price="item.price/100"
-              :desc="item.description"
-              :title="item.name"
-              thumb="https://img.yzcdn.cn/vant/t-thirt.jpg"
-              :origin-price="item.price_market / 100"
-              @click="goToDetail(item)"
-              class="border-b border-l"
-              style="margin-top:0"
-            />
-          </template>
+    <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
+      <van-swipe :autoplay="3000" indicator-color="blue" :height="200">
+        <template v-for="item in banners">
+          <van-swipe-item>
+            <img :lazy="item.img" :src="item.img" style="height:200px;width:100%" />
+          </van-swipe-item>
         </template>
-      </van-tree-select>
-    </div>
+      </van-swipe>
+
+      <div class="border-t">
+        <van-tree-select
+          height
+          :items="categorys"
+          :main-active-index.sync="activeIndex"
+          @click-nav="categoryChoose"
+        >
+          <template slot="content">
+            <template v-for="item in goodsList">
+              <van-card
+                tag="new"
+                :price="(item.price/100).toFixed(2)"
+                :desc="item.description"
+                :title="item.title"
+                :thumb="item.cover"
+                :origin-price="(item.price_market / 100).toFixed(2)"
+                @click="goToDetail(item)"
+                class="border-b border-l"
+                style="margin-top:0"
+              />
+            </template>
+          </template>
+        </van-tree-select>
+      </div>
+
+      <!-- <div>下拉刷新</div> -->
+    </van-pull-refresh>
   </div>
 </template>
 <script>
 import axios from "./../server/axios";
+import banners from "./../server/banners.json";
 
 export default {
   async fetch({ store, params }) {
@@ -63,6 +69,8 @@ export default {
   data() {
     return {
       // isApp: false,
+      banners: banners,
+      isLoading: false,
       activeIndex: 0,
       categoryIdActive: 1,
       goodsData: {},
@@ -85,6 +93,22 @@ export default {
     }
   },
   methods: {
+    async onRefresh() {
+      this.activeIndex = 0;
+      console.log("onRefresh start ...");
+      this.goodsData = {};
+      this.goodsList = {};
+      this.$store.commit("goodsDataSet", this.goodsData);
+
+      try {
+        await this.getGoodsList();
+        this.$toast("刷新成功");
+      } catch (err) {
+        this.$toast("刷新失败，请稍后重试");
+      }
+
+      this.isLoading = false;
+    },
     categoryIdActiveGet() {
       console.log("categoryIdActiveGet.activeIndex ", this.activeIndex);
       return this.categorys[this.activeIndex].id || 0;
