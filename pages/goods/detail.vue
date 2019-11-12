@@ -63,6 +63,7 @@
 import axios from "@/server/axios";
 import apis from "@/assets/js/apis";
 import utils from "@/assets/js/utils";
+import uniCart from "@/assets/js/uniCart";
 export default {
   data() {
     return {
@@ -118,7 +119,11 @@ export default {
       if (this.actionType == 1) {
         // 添加购物车
         try {
-          await apis.cartItemPlus(this.goods, this.num);
+          if (this.$store.state.isApp) {
+            uniCart.cartItemPlus(this.goods, this.num);
+          } else {
+            await apis.cartItemPlus(this.goods, this.num);
+          }
         } catch (err) {
           console.log(err);
           this.$toast.fail("添加购物车失败，请稍后刷新重试");

@@ -50,6 +50,7 @@
 <script>
 import apis from "@/assets/js/apis";
 import utils from "@/assets/js/utils";
+import uniCart from "@/assets/js/uniCart";
 
 export default {
   data() {
@@ -80,9 +81,15 @@ export default {
     },
     async getCartItems() {
       try {
-        let items = await apis.cartItems();
-        console.log("/getCartItems", items);
-        this.items = items;
+        if (this.$store.state.isApp) {
+          let items = uniCart.cartItems();
+          console.log("/getCartItems", items);
+          this.items = items;
+        } else {
+          let items = await apis.cartItems();
+          console.log("/getCartItems", items);
+          this.items = items;
+        }
 
         this.getTotal();
       } catch (err) {
@@ -91,9 +98,16 @@ export default {
     },
     async clearCart() {
       try {
-        let items = await apis.cartClear();
-        console.log("/getCartItems", items);
-        this.items = items;
+        if (this.$store.state.isApp) {
+          let items = uniCart.cartClear();
+          console.log("/getCartItems", items);
+          this.items = items;
+        } else {
+          let items = await apis.cartClear();
+          console.log("/getCartItems", items);
+          this.items = items;
+        }
+
         this.getTotal();
         this.$toast.success("清空购物车成功");
       } catch (err) {
@@ -106,10 +120,18 @@ export default {
       let items = this.items;
       if (item.num > num) {
         num = item.num - num;
-        items = await apis.cartItemMinus(item, num);
+        if (this.$store.state.isApp) {
+          items = uniCart.cartItemMinus(item, num);
+        } else {
+          items = await apis.cartItemMinus(item, num);
+        }
       } else if (item.num < num) {
         num = num - item.num;
-        items = await apis.cartItemPlus(item, num);
+        if (this.$store.state.isApp) {
+          items = uniCart.cartItemPlus(item, num);
+        } else {
+          items = await apis.cartItemPlus(item, num);
+        }
       }
 
       this.items = items;
