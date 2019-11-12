@@ -67,6 +67,8 @@ async function start() {
 
   app.use(cors())
 
+  app.use('/cart', require('./cart'))
+
   let authMids = require('./auth')
   app.use(authMids.getInfoByToken)
 

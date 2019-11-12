@@ -15,24 +15,6 @@ router.use((req, res, next) => {
 
   next()
 })
-router.post("/auth/logout", async (req, res) => {
-  req.session.token = "";
-  console.log('/api/auth/logout ', req.session.token)
-  return res.json({
-    code: 0,
-    message: "success"
-  });
-});
-
-router.post('/auth/apps', async (req, res) => {
-  let apps = require('./apps.json')
-  console.log('/api/auth/apps ', apps)
-  return res.json({
-    code: 0,
-    message: "success",
-    data: apps
-  })
-})
 
 router.use(async (req, res) => {
 

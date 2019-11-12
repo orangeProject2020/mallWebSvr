@@ -4,11 +4,12 @@
   </div>
 </template>
 <script>
-import "@vant/touch-emulator";
+// import "@vant/touch-emulator";
 export default {
   created() {
+    console.log("default created .................");
     document.addEventListener("UniAppJSBridgeReady", () => {
-      // console.log('UniAppJSBridgeReady');
+      console.log("UniAppJSBridgeReady .................");
       this.$store.commit("isAppSet", true);
     });
   }
