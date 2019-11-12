@@ -104,7 +104,7 @@ export default {
         await this.getGoodsList();
         this.$toast("刷新成功");
       } catch (err) {
-        this.$toast("刷新失败，请稍后重试");
+        this.$toast("刷新失败，请稍后重试git ");
       }
 
       this.isLoading = false;
