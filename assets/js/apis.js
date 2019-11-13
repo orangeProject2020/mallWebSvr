@@ -37,6 +37,14 @@ export default {
     return ret
   },
   /**
+   * 获取订单列表
+   * @param {*} data 
+   */
+  async getOrderList(data) {
+    let ret = await axios.post('/api/mall/order/list', data)
+    return ret
+  },
+  /**
    * 创建账单
    * @param {*} data 
    */
