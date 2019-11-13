@@ -5,7 +5,8 @@ export const state = () => ({
   token: '',
   categorys: [],
   categoryActive: 0,
-  goodsData: {}
+  goodsData: {},
+  orderDatas: []
 })
 
 export const mutations = {
@@ -20,6 +21,9 @@ export const mutations = {
   },
   goodsDataSet(state, data = {}) {
     state.goodsData = data
+  },
+  orderDatasSet(state, data) {
+    state.orderDatas = data
   }
 }
 

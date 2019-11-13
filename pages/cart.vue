@@ -40,7 +40,7 @@
       </template>
     </van-pull-refresh>
 
-    <van-submit-bar :price="total" button-text="提交订单" @submit="onSubmit" :loading="submitLoading">
+    <van-submit-bar :price="total" button-text="结算" @submit="onSubmit" :loading="submitLoading">
       <van-checkbox v-model="checkAllVal" class="pl-8" @click="checkAll">全选</van-checkbox>
       <span slot="tip"></span>
     </van-submit-bar>
@@ -177,58 +177,89 @@ export default {
 
       let items = this.items;
       let results = this.result;
-      let business = {};
+
+      let orderData = [];
       items.forEach(item => {
         if (results.indexOf(item.id) > -1) {
-          if (!business[item.business_id]) {
-            business[item.business_id] = [];
-          }
-          business[item.business_id].push({
-            goods_id: item.id,
-            num: item.num
-          });
+          orderData.push(item);
         }
       });
-      let orders = [];
-      Object.keys(business).forEach(businessId => {
-        orders.push({
-          business_id: businessId,
-          goods_items: business[businessId],
-          score: 0, // TODO
-          remark: "" //TODO
-        });
-      });
 
-      let submitData = {
-        orders: orders,
-        address: {} // TODO
-      };
-
-      console.log("/onSubmit data", submitData);
-
-      try {
-        let createOrderRet = await apis.createOrder(submitData);
-        if (createOrderRet.code === 0) {
-          // this.submitLoading = false;
-          this.$toast.success("提交订单成功");
-          let orders = createOrderRet.data.orders || [];
-          let orderIds = [];
-          if (orders.length) {
-            orders.forEach(order => {
-              orderIds.push(order.id);
-            });
-            this.$router.replace("/payment?order_ids=" + orderIds.join(","));
-          }
-        } else {
-          console.log("/onSubmit fail message:", createOrderRet.message);
-          this.$toast.fail(`提交订单出现错误(${createOrderRet.message})!`);
-        }
-      } catch (err) {
-        this.$toast.fail("提交订单出现错误，请稍后重试");
-      }
-
+      this.$store.commit("orderDatasSet", orderData);
+      this.$router.push("/order/confirm");
       this.submitLoading = false;
+      return;
+
+      // let business = {}; // 提交的数据，按商户分类
+      // let itemsChecked = []; // 选择的购物车条目
+      // items.forEach(item => {
+      //   if (results.indexOf(item.id) > -1) {
+      //     if (!business[item.business_id]) {
+      //       business[item.business_id] = [];
+      //     }
+      //     business[item.business_id].push({
+      //       goods_id: item.id,
+      //       num: item.num
+      //     });
+      //     itemsChecked.push(item);
+      //   }
+      // });
+      // let orders = [];
+      // Object.keys(business).forEach(businessId => {
+      //   orders.push({
+      //     business_id: businessId,
+      //     goods_items: business[businessId],
+      //     score: 0, // TODO
+      //     remark: "" //TODO
+      //   });
+      // });
+
+      // let submitData = {
+      //   orders: orders,
+      //   address: {} // TODO
+      // };
+
+      // console.log("/onSubmit data", submitData);
+
+      // try {
+      //   let createOrderRet = await apis.createOrder(submitData);
+      //   if (createOrderRet.code === 0) {
+      //     // this.submitLoading = false;
+      //     this.$toast.success("提交订单成功");
+      //     let ordersData = createOrderRet.data.orders || [];
+      //     let orderIds = [];
+      //     if (ordersData.length) {
+      //       ordersData.forEach(order => {
+      //         orderIds.push(order.id);
+      //       });
+      //       this.submitSuccess(itemsChecked);
+      //       this.$router.replace("/payment?orderIds=" + orderIds.join(","));
+      //     }
+      //   } else {
+      //     console.log("/onSubmit fail message:", createOrderRet.message);
+      //     this.$toast.fail(`提交订单出现错误(${createOrderRet.message})!`);
+      //   }
+      // } catch (err) {
+      //   console.log("/onSubmit err", err);
+      //   this.$toast.fail("提交订单出现错误，请稍后重试");
+      // }
+
+      // this.submitLoading = false;
     }
+    // submitSuccess(checkedItems) {
+    //   // 请空购物车
+    //   let isApp = this.$store.state.isApp;
+    //   console.log("/submitSuccess isApp", isApp);
+    //   for (let index = 0; index < checkedItems.length; index++) {
+    //     let item = checkedItems[index];
+    //     console.log("/submitSuccess item", item.id, item.num);
+    //     if (!isApp) {
+    //       apis.cartItemMinus(item, item.num);
+    //     } else {
+    //       uniCart.cartItemMinus(item, item.num);
+    //     }
+    //   }
+    // }
   },
   async created() {
     document.addEventListener("UniAppJSBridgeReady", () => {

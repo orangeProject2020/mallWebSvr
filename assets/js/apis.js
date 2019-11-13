@@ -27,5 +27,9 @@ export default {
   async createOrder(data) {
     let ret = await axios.post('/api/mall/order/create', data)
     return ret
+  },
+  async getOrder(data) {
+    let ret = await axios.post('/api/mall/order/detail', data)
+    return ret
   }
 }

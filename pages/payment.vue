@@ -1,0 +1,165 @@
+<template>
+  <div>
+    <van-nav-bar
+      title="支付"
+      left-text
+      :left-arrow="leftArrow"
+      @click-left="navBack"
+      @click-right="navHome"
+    >
+      <van-icon name="home-o" slot="right" size="2rem" />
+    </van-nav-bar>
+
+    <template v-for="order in orders">
+      <div class="m-8 bg-gray-100 rounded-lg">
+        <div class="text-gray-600 p-4">NO.{{order.order_no}}</div>
+        <template v-for="item in order.items">
+          <van-card
+            :title="item.name"
+            :price="formatPrice(item.price)"
+            :thumb="item.cover"
+            :num="item.num"
+            style="margin-top:0"
+          />
+        </template>
+      </div>
+    </template>
+
+    <van-cell
+      title="选择支付方式"
+      is-link
+      arrow-direction="down"
+      :value="payTypeText"
+      @click="payTypeChoose"
+    />
+
+    <van-radio-group v-model="payMethod" v-if="payType == 1">
+      <van-cell-group>
+        <van-cell title="微信支付" clickable @click="payMethodSelect(1)">
+          <van-radio slot="right-icon" :name="1" checked-color="#07c160" />
+        </van-cell>
+        <van-cell title="支付宝" clickable @click="payMethodSelect(2)">
+          <van-radio slot="right-icon" :name="2" />
+        </van-cell>
+      </van-cell-group>
+    </van-radio-group>
+
+    <van-action-sheet
+      v-model="payTypeShow"
+      :actions="payTypeActions"
+      title="选择支付方式"
+      @select="payTypeSelect"
+    />
+
+    <van-submit-bar
+      :price="total"
+      button-text="确认支付"
+      @submit="onSubmit"
+      :loading="submitLoading"
+      :disabled="submitDisabled"
+    >
+      <span slot="tip"></span>
+    </van-submit-bar>
+  </div>
+</template>
+<script>
+import utils from "@/assets/js/utils";
+import apis from "@/assets/js/apis";
+export default {
+  data() {
+    return {
+      leftArrow: false,
+      total: 0,
+      submitLoading: false,
+      submitDisabled: true,
+      orders: [],
+      payType: 0,
+      payTypeText: "",
+      payTypeShow: false,
+      payTypeActions: [
+        { name: "线下支付" },
+        { name: "在线支付", color: "#07c160" }
+      ],
+      payMethod: 0
+    };
+  },
+  methods: {
+    ...utils,
+    onSubmit() {},
+    navBack() {
+      this.$router.go(-1);
+    },
+    navHome() {
+      this.$router.replace("/list");
+    },
+    payTypeChoose() {
+      this.payTypeShow = true;
+    },
+    payTypeSelect(item, index) {
+      console.log(item);
+      console.log(index);
+      this.payTypeText = item.name;
+      this.payType = index;
+      if (index == 0) {
+        this.payMethod = 0;
+      }
+      this.payTypeShow = false;
+
+      this.checkSubmitBtn();
+    },
+    payMethodSelect(val) {
+      this.payMethod = val;
+      this.checkSubmitBtn();
+    },
+    checkSubmitBtn() {
+      if (this.payType == 0 || (this.payType == 1 && this.payMethod > 0)) {
+        this.submitDisabled = false;
+      } else {
+        this.submitDisabled = true;
+      }
+    },
+    failMessage(msg) {
+      this.$dialog
+        .alert({
+          title: "提示",
+          message: msg
+        })
+        .then(() => {
+          // on close
+          this.navHome();
+        });
+    }
+  },
+  async created() {
+    let orderIds = this.$route.query.orderIds || this.$route.query.orderId;
+    orderIds = orderIds.split(",");
+    if (orderIds.length === 0) {
+      this.failMessage("获取订单信息错误");
+      return;
+    }
+    this.orders = [];
+    for (let index = 0; index < orderIds.length; index++) {
+      let orderId = orderIds[index];
+      try {
+        let orderRet = await apis.getOrder({ id: orderId });
+        if (orderRet.code == 0) {
+          this.orders.push(orderRet.data);
+        } else {
+          console.log(orderId, orderRet.message);
+          throw new Error("获取订单信息错误");
+        }
+      } catch (err) {
+        this.failMessage("获取订单信息错误!");
+        return;
+      }
+    }
+
+    console.log("/create orders", this.orders);
+    let total = 0;
+    this.orders.forEach(order => {
+      total += order.total;
+    });
+    this.total = total;
+  }
+};
+</script>

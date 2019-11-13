@@ -121,13 +121,8 @@ export default {
         try {
           if (this.$store.state.isApp) {
             uniCart.cartItemPlus(this.goods, this.num);
-            // uni.getEnv(function(res) {
-            //   console.log("当前环境：" + JSON.stringify(res));
-            // });
-            // let cartStorage = plus.storage.getItem("cart");
-            // console.log("cartStorage");
           } else {
-            await apis.cartItemPlus(this.goods, this.num, uni);
+            await apis.cartItemPlus(this.goods, this.num);
           }
         } catch (err) {
           console.log(err);
@@ -137,7 +132,16 @@ export default {
         this.show = false;
         this.goCart();
       } else if (this.actionType == 2) {
-        // 立即购买
+        // 立即购买,直接下订单
+        let orderData = [
+          {
+            ...this.goods,
+            num: this.num
+          }
+        ];
+
+        this.$store.commit("orderDatasSet", orderData);
+        this.$router.push("/order/confirm?isBuy=1");
       }
     },
     goCart() {
