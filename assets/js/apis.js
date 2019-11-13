@@ -28,8 +28,20 @@ export default {
     let ret = await axios.post('/api/mall/order/create', data)
     return ret
   },
+  /**
+   * 获取订单信息
+   * @param {*} data 
+   */
   async getOrder(data) {
     let ret = await axios.post('/api/mall/order/detail', data)
+    return ret
+  },
+  /**
+   * 创建账单
+   * @param {*} data 
+   */
+  async createPayment(data) {
+    let ret = await axios.post('/api/mall/payment/create', data)
     return ret
   }
 }

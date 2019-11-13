@@ -70,9 +70,12 @@ export default {
     return {
       leftArrow: false,
       total: 0,
+      amount: 0,
+      score: 0,
       submitLoading: false,
       submitDisabled: true,
       orders: [],
+      orderIds: [],
       payType: 0,
       payTypeText: "",
       payTypeShow: false,
@@ -80,12 +83,61 @@ export default {
         { name: "线下支付" },
         { name: "在线支付", color: "#07c160" }
       ],
-      payMethod: 0
+      payMethod: 0,
+      outTradeNo: "",
+      paymentId: 0
     };
   },
   methods: {
     ...utils,
-    onSubmit() {},
+    async onSubmit() {
+      this.submitLoading = true;
+
+      let orderIds = this.orderIds;
+      let submitData = {
+        order_ids: orderIds,
+        total: this.total,
+        amount: this.amount,
+        score: this.score,
+        pay_type: this.payType,
+        pay_method: this.payMethod,
+        balance: 0,
+        coupon: 0,
+        user_coupon_id: 0
+      };
+
+      if (this.payType > 0 && this.payMethod == 0) {
+        this.$toast.fail("请选择支付方式");
+        return;
+      }
+
+      console.log("/onSubmit data", submitData);
+      try {
+        let paymentRet = await apis.createPayment(submitData);
+        if (paymentRet.code == 0) {
+          // this.$toast.success("");
+          console.log("/onSubmit paymentData:", paymentRet.data);
+          let paymentData = paymentRet.data;
+
+          if (paymentData.status == 1) {
+            // 不需要继续支付
+            this.$route.replace("/order/list?status=1");
+          } else {
+            this.outTradeNo = paymentData.out_trade_no;
+            this.paymentId = paymentData.id;
+            console.log("/onSubmit outTradeNo", this.outTradeNo);
+            console.log("/onSubmit paymentId", this.paymentId);
+          }
+        } else {
+          throw new Error(paymentRet.message);
+        }
+      } catch (err) {
+        console.error(err);
+        this.$toast.fail(err.message || err);
+      }
+
+      this.submitLoading = false;
+    },
     navBack() {
       this.$router.go(-1);
     },
@@ -140,6 +192,7 @@ export default {
     this.orders = [];
     for (let index = 0; index < orderIds.length; index++) {
       let orderId = orderIds[index];
+      this.orderIds.push(orderId);
       try {
         let orderRet = await apis.getOrder({ id: orderId });
         if (orderRet.code == 0) {
@@ -156,10 +209,19 @@ export default {
 
     console.log("/create orders", this.orders);
     let total = 0;
+    let amount = 0;
+    let score = 0;
     this.orders.forEach(order => {
+      if (order.status != 0) {
+        this.failMessage("已有订单处于不需要支付状态！");
+      }
       total += order.total;
+      score += order.score;
+      amount += order.total - order.score;
     });
     this.total = total;
+    this.amount = amount;
+    this.score = score;
   }
 };
 </script>
