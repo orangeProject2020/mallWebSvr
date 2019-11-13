@@ -2,8 +2,8 @@
   <div>
     <van-nav-bar title="订单列表" left-text left-arrow @click-left="navBack"></van-nav-bar>
     <van-tabs v-model="statusActive" @click="statusChange">
-      <van-tab title="代付款"></van-tab>
-      <van-tab title="代发货"></van-tab>
+      <van-tab title="待付款"></van-tab>
+      <van-tab title="待发货"></van-tab>
       <van-tab title="待收货"></van-tab>
       <van-tab title="已完成"></van-tab>
     </van-tabs>
