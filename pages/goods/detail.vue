@@ -121,8 +121,13 @@ export default {
         try {
           if (this.$store.state.isApp) {
             uniCart.cartItemPlus(this.goods, this.num);
+            // uni.getEnv(function(res) {
+            //   console.log("当前环境：" + JSON.stringify(res));
+            // });
+            // let cartStorage = plus.storage.getItem("cart");
+            // console.log("cartStorage");
           } else {
-            await apis.cartItemPlus(this.goods, this.num);
+            await apis.cartItemPlus(this.goods, this.num, uni);
           }
         } catch (err) {
           console.log(err);

@@ -1,7 +1,8 @@
 export default {
   cartItems() {
     // return await axios.post('/cart/')
-    let itemStorge = uni.getStorageSync('cart')
+    // let itemStorge = uni.getStorageSync('cart')
+    let itemStorge = plus.storage.getItem("cart")
     return itemStorge ? JSON.parse(itemStorge) : []
   },
   cartItemPlus(item, num = 1) {
@@ -35,7 +36,8 @@ export default {
       })
     }
 
-    uni.setStorageSync('cart', JSON.stringify(items))
+    // uni.setStorageSync('cart', JSON.stringify(items))
+    plus.storage.setItem("cart", JSON.stringify(items))
     return items
   },
   cartItemMinus(item, num = 1) {
@@ -62,11 +64,13 @@ export default {
       items.splice(delIndex, 1)
     }
 
-    uni.setStorageSync('cart', JSON.stringify(items))
+    // uni.setStorageSync('cart', JSON.stringify(items))
+    plus.storage.setItem("cart", JSON.stringify(items))
     return items
   },
   cartClear() {
-    uni.setStorageSync('cart', [])
+    // uni.setStorageSync('cart', [])
+    plus.storage.setItem("cart", '')
     return []
   }
 }

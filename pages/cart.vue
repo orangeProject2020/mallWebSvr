@@ -168,7 +168,7 @@ export default {
 
       this.total = total;
     },
-    onSubmit() {
+    async onSubmit() {
       if (this.result.length <= 0) {
         this.$toast("请选择待提交商品");
         return;
@@ -206,9 +206,28 @@ export default {
 
       console.log("/onSubmit data", submitData);
 
-      setTimeout(() => {
-        this.submitLoading = false;
-      }, 5000);
+      try {
+        let createOrderRet = await apis.createOrder(submitData);
+        if (createOrderRet.code === 0) {
+          // this.submitLoading = false;
+          this.$toast.success("提交订单成功");
+          let orders = createOrderRet.data.orders || [];
+          let orderIds = [];
+          if (orders.length) {
+            orders.forEach(order => {
+              orderIds.push(order.id);
+            });
+            this.$router.replace("/payment?order_ids=" + orderIds.join(","));
+          }
+        } else {
+          console.log("/onSubmit fail message:", createOrderRet.message);
+          this.$toast.fail(`提交订单出现错误(${createOrderRet.message})!`);
+        }
+      } catch (err) {
+        this.$toast.fail("提交订单出现错误，请稍后重试");
+      }
+
+      this.submitLoading = false;
     }
   },
   async created() {

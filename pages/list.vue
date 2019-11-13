@@ -1,5 +1,8 @@
 <template>
   <div>
+    <van-nav-bar title @click-right="goCart" class="index-nav-bar">
+      <van-icon name="shopping-cart-o" slot="right" size="2rem" />
+    </van-nav-bar>
     <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
       <van-swipe :autoplay="3000" indicator-color="blue" :height="200">
         <template v-for="item in banners">
@@ -179,7 +182,24 @@ export default {
     },
     goToDetail(item) {
       this.$router.push("/goods/detail?id=" + item.id);
+    },
+    goCart() {
+      this.$router.push("/cart");
     }
   }
 };
 </script>
+
+<style >
+.index-nav-bar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  /* opacity: 0.7; */
+  background: none;
+}
+
+.index-nav-bar::after {
+  border-bottom-width: 0;
+}
+</style>

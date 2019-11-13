@@ -19,5 +19,13 @@ export default {
   },
   async cartClear() {
     return await axios.post('/cart/clear')
+  },
+  /**
+   * 创建订单
+   * @param {*} data 
+   */
+  async createOrder(data) {
+    let ret = await axios.post('/api/mall/order/create', data)
+    return ret
   }
 }
