@@ -1,6 +1,6 @@
 <template>
   <div>
-    <van-nav-bar title="订单列表" left-text left-arrow @click-left="navBack"></van-nav-bar>
+    <van-nav-bar title="订单列表" left-text left-arrow @click-left="navBack" v-if="!navBarHide"></van-nav-bar>
     <van-tabs v-model="statusActive" @click="statusChange">
       <van-tab title="待付款"></van-tab>
       <van-tab title="待发货"></van-tab>
@@ -30,8 +30,14 @@
 import apis from "@/assets/js/apis";
 import utils from "@/assets/js/utils";
 export default {
+  head() {
+    return {
+      title: "订单列表"
+    };
+  },
   data() {
     return {
+      navBarHide: false,
       isLoading: false,
       statusActive: 0,
       listLoading: false,
@@ -101,6 +107,11 @@ export default {
     },
     goToDetail(item) {
       this.$router.push("/order/detail?id=" + item.id);
+    }
+  },
+  created() {
+    if (this.$route.query.from === "appTab") {
+      this.navBarHide = true;
     }
   }
 };

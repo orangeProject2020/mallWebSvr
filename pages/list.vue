@@ -20,19 +20,27 @@
           @click-nav="categoryChoose"
         >
           <template slot="content">
-            <template v-for="item in goodsList">
-              <van-card
-                tag="new"
-                :price="(item.price/100).toFixed(2)"
-                :desc="item.description"
-                :title="item.title"
-                :thumb="item.cover"
-                :origin-price="(item.price_market / 100).toFixed(2)"
-                @click="goToDetail(item)"
-                class="border-b border-l"
-                style="margin-top:0"
-              />
-            </template>
+            <van-list
+              v-model="listLoading"
+              :finished="listFinished"
+              finished-text="没有更多了"
+              :error.sync="listError"
+              error-text="请求失败，点击重新加载"
+              @load="getGoodsList"
+              :immediate-check="false"
+            >
+              <van-cell v-for="item in goodsList" :key="item.id" style="padding:0">
+                <van-card
+                  tag="new"
+                  :price="(item.price/100).toFixed(2)"
+                  :desc="item.description"
+                  :title="item.title"
+                  :thumb="item.cover"
+                  :origin-price="(item.price_market / 100).toFixed(2)"
+                  @click="goToDetail(item)"
+                />
+              </van-cell>
+            </van-list>
           </template>
         </van-tree-select>
       </div>
@@ -47,6 +55,11 @@ import banners from "./../server/banners.json";
 import utils from "@/assets/js/utils";
 
 export default {
+  head() {
+    return {
+      title: "商品列表"
+    };
+  },
   async fetch({ store, params }) {
     if (!store.state.categorys.length) {
       let categorysRet = await axios.post("/api/mall/goods/categorys", {
@@ -79,6 +92,9 @@ export default {
   data() {
     return {
       // isApp: false,
+      listLoading: false,
+      listFinished: false,
+      listError: false,
       banners: banners,
       isLoading: false,
       activeIndex: 0,
@@ -107,6 +123,9 @@ export default {
     async onRefresh() {
       this.activeIndex = 0;
       console.log("onRefresh start ...");
+      this.listFinished = false;
+      this.listLoading = true;
+
       this.goodsData = {};
       this.goodsList = {};
       this.$store.commit("goodsDataSet", this.goodsData);
@@ -115,7 +134,7 @@ export default {
         await this.getGoodsList();
         this.$toast.success("刷新成功");
       } catch (err) {
-        this.$toast.fail("刷新失败，请稍后重试git ");
+        this.$toast.fail("刷新失败，请稍后重试");
       }
 
       this.isLoading = false;
@@ -130,6 +149,9 @@ export default {
       let category = this.$store.state.categorys[index];
       console.log("categoryChoose ", category);
       this.activeIndex = index;
+      this.listFinished = false;
+      this.listLoading = true;
+
       this.getGoodsList();
     },
     async getGoodsList() {
@@ -167,8 +189,12 @@ export default {
         this.$store.commit("goodsDataSet", this.goodsData);
       }
 
-      this.goodsData["category_" + categoryId].count = goodsRet.data.count;
-      this.goodsData["category_" + categoryId].page = page + 1;
+      if (goodsRet.data.rows.length === 0) {
+        this.listFinished = true;
+      } else {
+        this.goodsData["category_" + categoryId].count = goodsRet.data.count;
+        this.goodsData["category_" + categoryId].page = page + 1;
+      }
 
       goodsRet.data.rows.forEach(item => {
         this.goodsData["category_" + categoryId].rows.push(item);
@@ -179,6 +205,8 @@ export default {
         this.goodsData["category_" + categoryId]
       );
       this.goodsList = this.goodsData["category_" + categoryId].rows;
+
+      this.listLoading = false;
     },
     goToDetail(item) {
       this.$router.push("/goods/detail?id=" + item.id);
@@ -191,6 +219,9 @@ export default {
 </script>
 
 <style >
+body {
+  background-color: #fafafa;
+}
 .index-nav-bar {
   position: fixed;
   top: 0;
