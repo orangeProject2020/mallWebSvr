@@ -75,6 +75,10 @@ export default {
 
       try {
         let createOrderRet = await apis.createOrder(submitData);
+        console.log(
+          "/onSubmit createOrderRet:",
+          JSON.stringify(createOrderRet, null, 2)
+        );
         if (createOrderRet.code === 0) {
           // this.submitLoading = false;
           // this.$toast.success("提交订单成功");
@@ -88,8 +92,21 @@ export default {
             this.$router.replace("/payment?orderIds=" + orderIds.join(","));
           }
         } else {
-          console.log("/onSubmit fail message:", createOrderRet.message);
-          this.$toast.fail(`提交订单出现错误(${createOrderRet.message})!`);
+          let retCode = createOrderRet.code;
+          if (retCode == -100 || retCode == -101) {
+            // 去登录
+            if (this.$store.state.isApp) {
+              uni.navigateTo({
+                url: "/pages/auth/login?form=h5"
+              });
+            } else {
+              this.$toast.fail("用户授权信息出现错误");
+            }
+            // this.$router.push("/auth?from=-order-confirm");
+          } else {
+            console.log("/onSubmit fail message:", createOrderRet.message);
+            this.$toast.fail(`提交订单出现错误(${createOrderRet.message})!`);
+          }
         }
       } catch (err) {
         console.log("/onSubmit err", err);
@@ -103,6 +120,7 @@ export default {
       let isApp = this.$store.state.isApp;
       let checkedItems = this.itemsChecked;
       console.log("/submitSuccess isApp", isApp);
+      console.log("/submitSuccess checkedItems", checkedItems);
       for (let index = 0; index < checkedItems.length; index++) {
         let item = checkedItems[index];
         console.log("/submitSuccess item", item.id, item.num);
@@ -139,7 +157,7 @@ export default {
     });
 
     this.businessData = businessData;
-    if (isBuy) {
+    if (!isBuy) {
       this.itemsChecked = itemsChecked;
     }
 

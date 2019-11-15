@@ -65,7 +65,8 @@ export default {
     }
 
     // uni.setStorageSync('cart', JSON.stringify(items))
-    plus.storage.setItem("cart", JSON.stringify(items))
+    console.log('/cartItemMinus', JSON.stringify(item, null, 2))
+    plus.storage.setItem("cart", JSON.stringify(items || []))
     return items
   },
   cartClear() {

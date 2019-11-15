@@ -17,8 +17,63 @@
           error-text="请求失败，点击重新加载"
           @load="listLoad"
         >
-          <van-cell v-for="item in orders" :key="item.id" @click="goToDetail(item)">
-            <div class="text-gray-500">NO.{{ item.order_no }}</div>
+          <van-cell v-for="order in orders" :key="order.id">
+            <div class="p-2">
+              <div class="border rounded-lg">
+                <van-cell @click="goToDetail(order)">
+                  <!-- 使用 title 插槽来自定义标题 -->
+                  <template slot="title">
+                    <span class="custom-title">NO.{{ order.order_no }}</span>
+                  </template>
+                  <template slot="default"></template>
+                </van-cell>
+                <div class="text-gray-500"></div>
+                <van-card
+                  :price="(item.price/100).toFixed(2)"
+                  :desc="item.desc"
+                  :title="item.name"
+                  :thumb="item.cover"
+                  @click="goToDetail(order)"
+                  v-for="item in order.items"
+                  :key="item.id"
+                ></van-card>
+                <van-cell>
+                  <!-- 使用 title 插槽来自定义标题 -->
+                  <template slot="title">
+                    <span>总计:</span>
+                    <span class="text-red-700">￥{{(order.total/100).toFixed(2)}}</span>
+                  </template>
+                  <template slot="default">
+                    <van-button
+                      plain
+                      hairline
+                      round
+                      type="default"
+                      size="mini"
+                      v-if="order.status == 0"
+                    >取消</van-button>
+                    <van-button
+                      plain
+                      hairline
+                      round
+                      type="danger"
+                      size="mini"
+                      v-if="order.status == 0"
+                      @click="goToPayment(order)"
+                    >支付</van-button>
+
+                    <van-button
+                      plain
+                      hairline
+                      round
+                      type="warning"
+                      size="mini"
+                      v-if="order.status == 2"
+                    >确认收货</van-button>
+                  </template>
+                </van-cell>
+              </div>
+            </div>
           </van-cell>
         </van-list>
       </div>
@@ -32,7 +87,7 @@ import utils from "@/assets/js/utils";
 export default {
   head() {
     return {
-      title: "订单列表"
+      title: "我的订单"
     };
   },
   data() {
@@ -53,9 +108,11 @@ export default {
       this.$router.go(-1);
     },
     async onRefresh() {
+      this.isLoading = true;
       this.orders = [];
       this.page = 1;
       this.listFinished = false;
+      this.listLoading = true;
       await this.listLoad();
       this.isLoading = false;
     },
@@ -79,12 +136,13 @@ export default {
 
       let data = {};
       data.page = this.page;
-      data.limit = 10;
+      data.limit = 5;
       data.status = this.statusActive;
       console.log("/listLoad data", data);
 
       try {
         let orderRet = await apis.getOrderList(data);
+        console.log("listLoad ret:", JSON.stringify(orderRet, null, 2));
         if (orderRet.code == 0) {
           let orders = orderRet.data.rows;
           if (orders.length) {
@@ -106,7 +164,18 @@ export default {
       this.listLoading = false;
     },
     goToDetail(item) {
-      this.$router.push("/order/detail?id=" + item.id);
+      let url = "/order/detail?id=" + item.id;
+      if (this.$store.state.isApp) {
+        url += "&from=appTab";
+      }
+      this.$router.push(url);
+    },
+    goToPayment(item) {
+      let url = "/payment?orderId=" + item.id;
+      if (this.$store.state.isApp) {
+        url += "&from=appTab";
+      }
+      this.$router.push(url);
     }
   },
   created() {

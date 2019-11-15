@@ -5,8 +5,12 @@ module.exports = {
   getInfoByToken: async (req, res, next) => {
 
     let token = req.query.token || ''
+    if (token === '0') {
+      req.session.token = ''
+      req.session.user_id = ''
+    }
     console.log('/getInfoByToken token:', token)
-    if (token) {
+    if (token && token !== '0') {
       let Request = new request({
         channel_id: config.channel_id,
         key: config.key

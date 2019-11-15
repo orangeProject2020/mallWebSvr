@@ -6,6 +6,7 @@
       :left-arrow="leftArrow"
       @click-left="navBack"
       @click-right="navHome"
+      v-if="!navBarHide"
     >
       <van-icon name="home-o" slot="right" size="2rem" />
     </van-nav-bar>
@@ -66,8 +67,14 @@
 import utils from "@/assets/js/utils";
 import apis from "@/assets/js/apis";
 export default {
+  head() {
+    return {
+      title: "支付"
+    };
+  },
   data() {
     return {
+      navBarHide: false,
       leftArrow: false,
       total: 0,
       amount: 0,
@@ -183,6 +190,10 @@ export default {
     }
   },
   async created() {
+    // let from = this.$router.query.from || "";
+    if (this.$route.query.from === "appTab") {
+      this.navBarHide = true;
+    }
     let orderIds = this.$route.query.orderIds || this.$route.query.orderId;
     orderIds = orderIds.split(",");
     if (orderIds.length === 0) {

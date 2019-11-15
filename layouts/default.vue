@@ -6,12 +6,19 @@
 <script>
 // import "@vant/touch-emulator";
 export default {
-  created() {
-    console.log("default created .................");
+  async beforeCreate() {
+    console.log("beforeCreate .................");
     document.addEventListener("UniAppJSBridgeReady", () => {
       console.log("UniAppJSBridgeReady .................");
       this.$store.commit("isAppSet", true);
     });
+  },
+  created() {
+    console.log("default created .................");
+    // document.addEventListener("UniAppJSBridgeReady", () => {
+    //   console.log("UniAppJSBridgeReady .................");
+    //   this.$store.commit("isAppSet", true);
+    // });
   }
 };
 </script>

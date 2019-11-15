@@ -83,7 +83,7 @@ export default {
     // console.log("/created categoryActive:", this.activeIndex);
     // this.getGoodsList();
     console.log("/mounted .................");
-    console.log("document:", document);
+    // console.log("document:", document);
     document.addEventListener("UniAppJSBridgeReady", () => {
       console.log("UniAppJSBridgeReady .................");
       this.$store.commit("isAppSet", true);

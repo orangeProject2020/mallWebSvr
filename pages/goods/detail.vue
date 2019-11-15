@@ -141,6 +141,8 @@ export default {
         ];
 
         this.$store.commit("orderDatasSet", orderData);
+        // 判断是否登录
+
         this.$router.push("/order/confirm?isBuy=1");
       }
     },
