@@ -29,6 +29,14 @@ export default {
     return ret
   },
   /**
+   * 取消订单
+   * @param {*} data 
+   */
+  async cancelOrder(data) {
+    let ret = await axios.post('/api/mall/order/cancel', data)
+    return ret
+  },
+  /**
    * 获取订单信息
    * @param {*} data 
    */

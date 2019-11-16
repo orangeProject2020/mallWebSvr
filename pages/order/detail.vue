@@ -36,7 +36,14 @@
         >
       </van-cell>
       <div class="p-4 text-right">
-        <van-button plain hairline round type="default" v-if="order.status == 0"
+        <van-button
+          plain
+          hairline
+          round
+          type="default"
+          size="small"
+          v-if="order.status == 0"
+          @click="orderCancelShow(order)"
           >取消</van-button
         >
         <van-button
@@ -44,27 +51,80 @@
           hairline
           round
           type="danger"
+          size="small"
           v-if="order.status == 0"
           @click="goToPayment(order)"
           >支付</van-button
         >
-        <van-button plain hairline round type="warning" v-if="order.status == 2"
+        <van-button
+          plain
+          hairline
+          round
+          type="warning"
+          size="small"
+          v-if="order.status == 2"
           >确认收货</van-button
         >
       </div>
     </van-pull-refresh>
+    <van-action-sheet v-model="orderCancel.show" title="取消订单">
+      <div class="p-4">
+        <div class="text-center text-xl">取消后无法恢复</div>
+        <div class="text-2xl text-gray-600 mt-4">请选择取消理由</div>
+        <div class="mt-4">
+          <van-radio-group v-model="orderCancel.reason">
+            <van-cell-group>
+              <van-cell
+                :title="item"
+                clickable
+                v-for="item in orderCancelReasons"
+                :key="item"
+              >
+                <van-radio
+                  slot="right-icon"
+                  :name="item"
+                  checked-color="#07c160"
+                />
+              </van-cell>
+            </van-cell-group>
+          </van-radio-group>
+        </div>
+        <div class="">
+          <van-goods-action class="p-4" style="position: unset;">
+            <van-goods-action-button
+              type="warning"
+              text="暂不取消"
+              @click="orderCancelClose"
+            />
+            <van-goods-action-button
+              type="danger"
+              text="确认取消"
+              @click="orderCancelSubmit"
+            />
+          </van-goods-action>
+        </div>
+      </div>
+    </van-action-sheet>
   </div>
 </template>
 
 <script>
 import apis from "@/assets/js/apis";
 import utils from "@/assets/js/utils";
+import config from "@/config/index";
+
 export default {
   data() {
     return {
       navBarHide: false,
       isLoading: false,
-      order: {}
+      order: {},
+      orderCancel: {
+        show: false,
+        reason: "",
+        id: 0
+      },
+      orderCancelReasons: config.cancel_reasons
     };
   },
   methods: {
@@ -95,6 +155,41 @@ export default {
         url += "&from=appTab";
       }
       this.$router.push(url);
+    },
+    orderCancelShow(order) {
+      this.orderCancel.show = true;
+      this.orderCancel.id = order.id;
+      this.orderCancel.reason = "";
+    },
+    orderCancelClose() {
+      this.orderCancel.show = false;
+    },
+    async orderCancelSubmit() {
+      let submitData = {};
+      submitData.id = this.orderCancel.id;
+      submitData.cancel_reason = this.orderCancel.reason;
+
+      console.log(
+        "/orderCancelSubmit submitData:",
+        JSON.stringify(submitData, null, 2)
+      );
+      try {
+        let cancelRet = await apis.cancelOrder(submitData);
+        console.log(
+          "/orderCancelSubmit cancelRet:",
+          JSON.stringify(cancelRet, null, 2)
+        );
+        if (cancelRet.code == 0) {
+          this.$toast.success("取消订单成功");
+          this.onRefresh();
+          this.orderCancel.show = false;
+        } else {
+          throw new Error(cancelRet.message);
+        }
+      } catch (err) {
+        // console.log(err);
+        this.$toast.fail(err.message || "取消失败");
+      }
     }
   },
   async created() {
