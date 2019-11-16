@@ -23,6 +23,7 @@
           <span v-if="order.status == 1">待发货</span>
           <span v-if="order.status == 2">待收货</span>
           <span v-if="order.status == 3">已完成</span>
+          <span v-if="order.status == -1">已取消</span>
         </template>
       </van-cell>
       <van-cell title="创建时间">
