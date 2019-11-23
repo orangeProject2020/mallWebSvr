@@ -34,7 +34,7 @@ async function start() {
   // app.set('trust proxy', 1)
   app.use(
     session({
-      resave: true,
+      resave: false,
       saveUninitialized: false,
       secret: "962055fd-2ae5-4880-9d40-eecd5bd3fe03" // session加密
     })

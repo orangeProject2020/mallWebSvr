@@ -20,6 +20,14 @@ export default {
   async cartClear() {
     return await axios.post('/cart/clear')
   },
+
+  /**
+   * 获取邀请码
+   */
+  async getUserInviteCode() {
+    let ret = await axios.post('/api/user/invite/getCode')
+    return ret
+  },
   /**
    * 创建订单
    * @param {*} data 
