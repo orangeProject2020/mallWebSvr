@@ -59,5 +59,13 @@ export default {
   async createPayment(data) {
     let ret = await axios.post('/api/mall/payment/create', data)
     return ret
+  },
+  /**
+   * 支付宝支付
+   * @param {*} data 
+   */
+  async alipaySumbit(data) {
+    let ret = await axios.post('/api/utils/alipay/wapPay', data)
+    return ret
   }
 }
