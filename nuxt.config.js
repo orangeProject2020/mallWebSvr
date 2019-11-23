@@ -83,9 +83,9 @@ module.exports = {
 
   env: {
     nodeEnv: process.env.NODE_ENV || 'development',
-    apiDomain: 'http://mall.demo.jianpiane.com',
+    apiDomain: 'http://mall.jianpiane.com',
     apiDomainLocal: 'http://127.0.0.1:10013',
-    apiHttpHost: 'http://api.demo.jianpiane.com',
+    apiHttpHost: 'http://api.jianpiane.com',
     apiHttpHostLocal: 'http://127.0.0.1:10000'
   }
 }
