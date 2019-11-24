@@ -10,6 +10,10 @@ export default {
     let ret = await axios.post('/api/user/auth/register', data)
     return ret
   },
+  async getUserInfo() {
+    let ret = await axios.post('/api/user/data/infoApp', data)
+    return ret
+  },
   async cartItems() {
     return await axios.post('/cart/')
   },
