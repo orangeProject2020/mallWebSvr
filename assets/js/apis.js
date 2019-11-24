@@ -2,6 +2,14 @@ import axios from '@/server/axios';
 
 export default {
 
+  /**
+   * 注册
+   * @param {*} data 
+   */
+  async authLogin(data) {
+    let ret = await axios.post('/api/user/auth/regsiter', data)
+    return ret
+  },
   async cartItems() {
     return await axios.post('/cart/')
   },

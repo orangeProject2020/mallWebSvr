@@ -8,7 +8,9 @@ const _056e35b4 = () => interopDefault(import('../pages/cart.vue' /* webpackChun
 const _4d1a2ba4 = () => interopDefault(import('../pages/list.vue' /* webpackChunkName: "pages/list" */))
 const _1be0cb70 = () => interopDefault(import('../pages/payment.vue' /* webpackChunkName: "pages/payment" */))
 const _fc6c94b6 = () => interopDefault(import('../pages/demo/page.vue' /* webpackChunkName: "pages/demo/page" */))
+const _10482b20 = () => interopDefault(import('../pages/download/app.vue' /* webpackChunkName: "pages/download/app" */))
 const _9370c7a0 = () => interopDefault(import('../pages/goods/detail.vue' /* webpackChunkName: "pages/goods/detail" */))
+const _769717da = () => interopDefault(import('../pages/invite/join.vue' /* webpackChunkName: "pages/invite/join" */))
 const _3612672e = () => interopDefault(import('../pages/order/confirm.vue' /* webpackChunkName: "pages/order/confirm" */))
 const _02b28138 = () => interopDefault(import('../pages/order/detail.vue' /* webpackChunkName: "pages/order/detail" */))
 const _8f44da76 = () => interopDefault(import('../pages/order/list.vue' /* webpackChunkName: "pages/order/list" */))
@@ -46,9 +48,17 @@ export const routerOptions = {
     component: _fc6c94b6,
     name: "demo-page"
   }, {
+    path: "/download/app",
+    component: _10482b20,
+    name: "download-app"
+  }, {
     path: "/goods/detail",
     component: _9370c7a0,
     name: "goods-detail"
+  }, {
+    path: "/invite/join",
+    component: _769717da,
+    name: "invite-join"
   }, {
     path: "/order/confirm",
     component: _3612672e,

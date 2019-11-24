@@ -69,7 +69,7 @@ export default {
             process.env.nodeEnv === "production"
               ? process.env.apiDomain
               : process.env.apiDomainLocal;
-          inviteUrl += "/auth/regsiter?inviteCode=" + code;
+          inviteUrl += "/invite/join?inviteCode=" + code;
           console.log("/create invitUrl:", inviteUrl);
           this.createQrcode(inviteUrl);
         } else {
