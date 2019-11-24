@@ -7,7 +7,7 @@ export default {
    * @param {*} data 
    */
   async authLogin(data) {
-    let ret = await axios.post('/api/user/auth/regsiter', data)
+    let ret = await axios.post('/api/user/auth/register', data)
     return ret
   },
   async cartItems() {
@@ -82,6 +82,11 @@ export default {
    */
   async alipaySumbit(data) {
     let ret = await axios.post('/api/utils/alipay/wapPay', data)
+    return ret
+  },
+
+  async getInviteList(data) {
+    let ret = await axios.post('/api/user/invite/list', data)
     return ret
   }
 }

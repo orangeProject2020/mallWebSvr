@@ -113,21 +113,18 @@ export default {
         this.errMsg.password = "";
       }
 
-      if (data.verify_code == "") {
-        this.errMsg.verify_code = this.checkMsg.verify_code;
-        error++;
-      } else {
-        this.errMsg.verify_code = "";
-      }
+      // if (data.verify_code == "") {
+      //   this.errMsg.verify_code = this.checkMsg.verify_code;
+      //   error++;
+      // } else {
+      //   this.errMsg.verify_code = "";
+      // }
 
       return error ? true : false;
     },
     async onSubmit() {
-      this.submitBtn.disabled = true;
-      this.submitBtn.loading = true;
-
       let checkRet = this.checkField();
-      if (!checkRet) {
+      if (checkRet) {
         return;
       }
 
@@ -138,11 +135,16 @@ export default {
       data.user_type = 1;
 
       console.log("/onSubmit data:", data);
+      this.submitBtn.disabled = true;
+      this.submitBtn.loading = true;
       try {
         let submitRet = await apis.authLogin(data);
         console.log("/onSubmit ret:", submitRet);
         if (submitRet.code === 0) {
-          this.$router.replace("/download/app?isJoin=1");
+          this.$toast.success("注册成功");
+          setTimeout(() => {
+            this.$router.replace("/download/app?isJoin=1");
+          }, 2000);
         } else {
           throw new Error(submitRet.message);
         }

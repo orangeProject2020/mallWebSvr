@@ -28,7 +28,29 @@
           </div>
         </div>
       </van-tab>
-      <van-tab title="邀请记录" name="logs">2 </van-tab>
+      <van-tab title="邀请记录" name="logs">
+        <div class="text-center border-b p-4">
+          共邀请
+          <span class="text-red-500 text-4xl">{{ listData.count }}</span> 人
+        </div>
+        <van-list
+          v-model="listData.loading"
+          :finished="listData.finished"
+          finished-text="没有更多了"
+          @load="listLoad"
+          :error.sync="listData.error"
+        >
+          <van-cell
+            v-for="item in listData.list"
+            :key="item.id"
+            :title="item.username || item.mobile"
+          >
+            <template slot="default">
+              {{ dateFormat(item.create_time) }}
+            </template>
+          </van-cell>
+        </van-list>
+      </van-tab>
     </van-tabs>
   </div>
 </template>
@@ -47,7 +69,16 @@ export default {
     return {
       navBarHide: false,
       activeTab: "code",
-      inviteCode: ""
+      inviteCode: "",
+      listData: {
+        page: 1,
+        count: 0,
+        list: [],
+        limit: 10,
+        loading: false,
+        finished: false,
+        error: false
+      }
     };
   },
   methods: {
@@ -98,6 +129,36 @@ export default {
         console.log("/tabChange tabChange");
         this.getUserInviteCode();
       }
+    },
+    async listLoad() {
+      this.listData.loading = true;
+      this.listData.finished = false;
+      let data = {
+        page: this.listData.page,
+        limit: this.listData.limit
+      };
+
+      try {
+        let listRet = await apis.getInviteList(data);
+        console.log("/listData listRet:", listRet);
+        if (listRet.code == 0) {
+          this.listData.page += 1;
+          this.listData.count = listRet.data.count;
+          listRet.data.rows.forEach(item => {
+            this.listData.list.push(item);
+          });
+          if (listRet.data.rows.length < this.listData.limit) {
+            this.listData.finished = true;
+          }
+        } else {
+          throw new Error(listRet.message);
+        }
+      } catch (err) {
+        this.listData.error = true;
+        this.$toast.fail(err.message || "网络错误，请稍后重试");
+      }
+
+      this.listData.loading = false;
     }
   },
   async created() {
