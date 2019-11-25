@@ -153,6 +153,10 @@ export default {
     if (this.$route.query.from === "appTab") {
       this.navBarHide = true;
     }
+
+    let status = this.$route.query.status || "0";
+    console.log("/created status", status);
+    this.statusChange(parseInt(status));
   }
 };
 </script>

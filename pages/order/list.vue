@@ -1,12 +1,6 @@
 <template>
   <div>
-    <van-nav-bar
-      title="订单列表"
-      left-text
-      left-arrow
-      @click-left="navBack"
-      v-if="!navBarHide"
-    ></van-nav-bar>
+    <van-nav-bar title="订单列表" left-text left-arrow @click-left="navBack" v-if="!navBarHide"></van-nav-bar>
     <van-tabs v-model="statusActive" @click="statusChange">
       <van-tab title="待付款"></van-tab>
       <van-tab title="待发货"></van-tab>
@@ -47,9 +41,7 @@
                   <!-- 使用 title 插槽来自定义标题 -->
                   <template slot="title">
                     <span>总计:</span>
-                    <span class="text-red-700"
-                      >￥{{ (order.total / 100).toFixed(2) }}</span
-                    >
+                    <span class="text-red-700">￥{{ (order.total / 100).toFixed(2) }}</span>
                   </template>
                   <template slot="default">
                     <van-button
@@ -60,8 +52,7 @@
                       size="mini"
                       v-if="order.status == 0"
                       @click="orderCancelShow(order)"
-                      >取消</van-button
-                    >
+                    >取消</van-button>
                     <van-button
                       plain
                       hairline
@@ -70,8 +61,7 @@
                       size="mini"
                       v-if="order.status == 0"
                       @click="goToPayment(order)"
-                      >支付</van-button
-                    >
+                    >支付</van-button>
 
                     <van-button
                       plain
@@ -80,8 +70,7 @@
                       type="warning"
                       size="mini"
                       v-if="order.status == 2"
-                      >确认收货</van-button
-                    >
+                    >确认收货</van-button>
                   </template>
                 </van-cell>
               </div>
@@ -98,33 +87,16 @@
         <div class="mt-4">
           <van-radio-group v-model="orderCancel.reason">
             <van-cell-group>
-              <van-cell
-                :title="item"
-                clickable
-                v-for="item in orderCancelReasons"
-                :key="item"
-              >
-                <van-radio
-                  slot="right-icon"
-                  :name="item"
-                  checked-color="#07c160"
-                />
+              <van-cell :title="item" clickable v-for="item in orderCancelReasons" :key="item">
+                <van-radio slot="right-icon" :name="item" checked-color="#07c160" />
               </van-cell>
             </van-cell-group>
           </van-radio-group>
         </div>
-        <div class="">
+        <div class>
           <van-goods-action class="p-4" style="position: unset;">
-            <van-goods-action-button
-              type="warning"
-              text="暂不取消"
-              @click="orderCancelClose"
-            />
-            <van-goods-action-button
-              type="danger"
-              text="确认取消"
-              @click="orderCancelSubmit"
-            />
+            <van-goods-action-button type="warning" text="暂不取消" @click="orderCancelClose" />
+            <van-goods-action-button type="danger" text="确认取消" @click="orderCancelSubmit" />
           </van-goods-action>
         </div>
       </div>
@@ -174,7 +146,7 @@ export default {
       await this.listLoad();
       this.isLoading = false;
     },
-    async statusChange(name, title) {
+    async statusChange(name, title = "") {
       console.log(name);
       this.orders = [];
       this.page = 1;
@@ -200,7 +172,7 @@ export default {
 
       try {
         let orderRet = await apis.getOrderList(data);
-        console.log("listLoad ret:", JSON.stringify(orderRet, null, 2));
+        console.log("listLoad ret:", JSON.stringify(orderRet));
         if (orderRet.code == 0) {
           let orders = orderRet.data.rows;
           if (orders.length) {
@@ -275,6 +247,11 @@ export default {
     if (this.$route.query.from === "appTab") {
       this.navBarHide = true;
     }
+
+    let status = this.$route.query.status || "0";
+    // this.statusActive = status;
+    console.log("/created status", status);
+    this.statusChange(parseInt(status));
   }
 };
 </script>

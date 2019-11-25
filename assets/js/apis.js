@@ -102,5 +102,10 @@ export default {
   async withdrawApply(data) {
     let ret = await axios.post('/api/mall/withdraw/apply', data)
     return ret
+  },
+
+  async getProfitList(data) {
+    let ret = await axios.post('/api/mall/profit/list', data)
+    return ret
   }
 }
