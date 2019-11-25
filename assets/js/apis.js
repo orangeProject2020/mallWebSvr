@@ -92,5 +92,15 @@ export default {
   async getInviteList(data) {
     let ret = await axios.post('/api/user/invite/list', data)
     return ret
+  },
+
+  async getWithdrawList(data) {
+    let ret = await axios.post('/api/mall/withdraw/list', data)
+    return ret
+  },
+
+  async withdrawApply(data) {
+    let ret = await axios.post('/api/mall/withdraw/apply', data)
+    return ret
   }
 }
