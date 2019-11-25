@@ -2,6 +2,11 @@ const express = require("express");
 const router = express.Router();
 const request = require("./request");
 const config = require('./../nuxt.config.js').api
+const area = require('./area')
+
+router.get('/area', (req, res) => {
+  return res.json(area)
+})
 
 router.use((req, res, next) => {
   req.checkUser = (req, res) => {

@@ -14,6 +14,22 @@ export default {
     let ret = await axios.post('/api/user/data/infoApp', data)
     return ret
   },
+  async addressList() {
+    let ret = await axios.post('/api/user/address/listUser')
+    return ret
+  },
+  // async getAddressDetail(data) {
+  //   let ret = await axios.post('/api/user/address/detail', data)
+  //   return ret
+  // },
+  async addressUpdate(data) {
+    let ret = await axios.post('/api/user/address/update', data)
+    return ret
+  },
+  async addressDelete(data) {
+    let ret = await axios.post('/api/user/address/delete', data)
+    return ret
+  },
   async cartItems() {
     return await axios.post('/cart/')
   },

@@ -6,12 +6,16 @@ export const state = () => ({
   categorys: [],
   categoryActive: 0,
   goodsData: {},
-  orderDatas: []
+  orderDatas: [],
+  address: {}
 })
 
 export const mutations = {
   isAppSet(state, data) {
     state.isApp = data
+  },
+  addressSet(state, data) {
+    state.address = data
   },
   categorysSet(state, data) {
     state.categorys = data
