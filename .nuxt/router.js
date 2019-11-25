@@ -15,7 +15,10 @@ const _3612672e = () => interopDefault(import('../pages/order/confirm.vue' /* we
 const _02b28138 = () => interopDefault(import('../pages/order/detail.vue' /* webpackChunkName: "pages/order/detail" */))
 const _8f44da76 = () => interopDefault(import('../pages/order/list.vue' /* webpackChunkName: "pages/order/list" */))
 const _36b01db6 = () => interopDefault(import('../pages/user/address.vue' /* webpackChunkName: "pages/user/address" */))
+const _5d687148 = () => interopDefault(import('../pages/user/info.vue' /* webpackChunkName: "pages/user/info" */))
 const _64887eb7 = () => interopDefault(import('../pages/user/invite.vue' /* webpackChunkName: "pages/user/invite" */))
+const _48610f1c = () => interopDefault(import('../pages/user/profit.vue' /* webpackChunkName: "pages/user/profit" */))
+const _19413690 = () => interopDefault(import('../pages/user/withdraw.vue' /* webpackChunkName: "pages/user/withdraw" */))
 const _719fc8bc = () => interopDefault(import('../pages/index.vue' /* webpackChunkName: "pages/index" */))
 
 Vue.use(Router)
@@ -76,9 +79,21 @@ export const routerOptions = {
     component: _36b01db6,
     name: "user-address"
   }, {
+    path: "/user/info",
+    component: _5d687148,
+    name: "user-info"
+  }, {
     path: "/user/invite",
     component: _64887eb7,
     name: "user-invite"
+  }, {
+    path: "/user/profit",
+    component: _48610f1c,
+    name: "user-profit"
+  }, {
+    path: "/user/withdraw",
+    component: _19413690,
+    name: "user-withdraw"
   }, {
     path: "/",
     component: _719fc8bc,
