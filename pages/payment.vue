@@ -27,7 +27,9 @@
     </template> -->
     <div class="p-8 text-center">
       <div class="text-xl text-gray-500">需支付金额</div>
-      <div class="text-6xl text-red-600 mt-4 mb-8">￥ {{(amount / 100).toFixed(2)}}</div>
+      <div class="text-6xl text-red-600 mt-4 mb-8">
+        ￥ {{ (amount / 100).toFixed(2) }}
+      </div>
     </div>
 
     <van-cell
@@ -142,7 +144,7 @@ export default {
               // 微信支付
             } else {
               // 支付宝
-              await this.alipaySubmit()
+              await this.alipaySubmit();
             }
           }
         } else {
@@ -159,28 +161,25 @@ export default {
       try {
         let alipayRet = await apis.alipaySumbit({
           out_trade_no: this.outTradeNo,
-          subject: '支付金额: ￥' + (this.amount / 100).toFixed(2),
+          subject: "支付金额: ￥" + (this.amount / 100).toFixed(2),
           amount: this.amount
-        })
-        console.log('/alipaySubmit ret:', JSON.stringify(alipayRet, null , 2))
+        });
+        console.log("/alipaySubmit ret:", JSON.stringify(alipayRet, null, 2));
         if (alipayRet.code === 0) {
-          let action = alipayRet.data.action
-          console.log('/alipaySubmit action:' , action)
-          location.href = action
+          let action = alipayRet.data.action;
+          console.log("/alipaySubmit action:", action);
+          location.href = action;
           // return action
-        }else {
-          throw new Error(alipayRet.message || '调用支付宝失败')
+        } else {
+          throw new Error(alipayRet.message || "调用支付宝失败");
         }
       } catch (err) {
-        console.error(err.message)
-        this.$toast.fail(err.message || '调用支付宝失败')
-        return false
+        console.error(err.message);
+        this.$toast.fail(err.message || "调用支付宝失败");
+        return false;
       }
-      
     },
-    async wxpaySubmit() {
-
-    },
+    async wxpaySubmit() {},
     navBack() {
       this.$router.go(-1);
     },
@@ -188,7 +187,7 @@ export default {
       this.$router.replace("/list");
     },
     payTypeChoose() {
-      return
+      return;
       this.payTypeShow = true;
     },
     payTypeSelect(item, index) {

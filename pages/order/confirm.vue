@@ -1,10 +1,16 @@
 <template>
   <div>
-    <van-nav-bar title="确认订单" left-text left-arrow @click-left="navBack" @click-right="navHome">
+    <van-nav-bar
+      title="确认订单"
+      left-text
+      left-arrow
+      @click-left="navBack"
+      @click-right="navHome"
+    >
       <van-icon name="home-o" slot="right" size="2rem" />
     </van-nav-bar>
 
-    <template v-for="(values,businessId) in businessData">
+    <template v-for="(values, businessId) in businessData">
       <!-- <div>{{businessId }}</div> -->
       <template v-for="item in values">
         <van-card
@@ -17,7 +23,12 @@
       </template>
     </template>
 
-    <van-submit-bar :price="total" button-text="提交订单" @submit="onSubmit" :loading="submitLoading">
+    <van-submit-bar
+      :price="total"
+      button-text="提交订单"
+      @submit="onSubmit"
+      :loading="submitLoading"
+    >
       <span slot="tip"></span>
     </van-submit-bar>
   </div>
@@ -27,6 +38,11 @@ import apis from "@/assets/js/apis";
 import utils from "@/assets/js/utils";
 import uniCart from "@/assets/js/uniCart";
 export default {
+  head() {
+    return {
+      title: "确认订单"
+    };
+  },
   data() {
     return {
       total: 0,

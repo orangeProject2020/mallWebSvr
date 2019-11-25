@@ -115,6 +115,9 @@ import utils from "@/assets/js/utils";
 import config from "@/config/index";
 
 export default {
+  head() {
+    title: "订单详情";
+  },
   data() {
     return {
       navBarHide: false,

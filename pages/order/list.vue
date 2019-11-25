@@ -223,14 +223,14 @@ export default {
     },
     goToDetail(item) {
       let url = "/order/detail?id=" + item.id;
-      if (this.$store.state.isApp) {
+      if (this.navBarHide) {
         url += "&from=appTab";
       }
       this.$router.push(url);
     },
     goToPayment(item) {
       let url = "/payment?orderId=" + item.id;
-      if (this.$store.state.isApp) {
+      if (this.navBarHide) {
         url += "&from=appTab";
       }
       this.$router.push(url);
