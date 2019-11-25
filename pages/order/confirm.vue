@@ -1,12 +1,6 @@
 <template>
   <div>
-    <van-nav-bar
-      title="确认订单"
-      left-text
-      left-arrow
-      @click-left="navBack"
-      @click-right="navHome"
-    >
+    <van-nav-bar title="确认订单" left-text left-arrow @click-left="navBack" @click-right="navHome">
       <van-icon name="home-o" slot="right" size="2rem" />
     </van-nav-bar>
 
@@ -23,12 +17,7 @@
       </template>
     </template>
 
-    <van-submit-bar
-      :price="total"
-      button-text="提交订单"
-      @submit="onSubmit"
-      :loading="submitLoading"
-    >
+    <van-submit-bar :price="total" button-text="提交订单" @submit="onSubmit" :loading="submitLoading">
       <span slot="tip"></span>
     </van-submit-bar>
   </div>

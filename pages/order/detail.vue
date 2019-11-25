@@ -1,12 +1,6 @@
 <template>
   <div>
-    <van-nav-bar
-      title="订单详情"
-      left-text
-      left-arrow
-      @click-left="navBack"
-      v-if="!navBarHide"
-    ></van-nav-bar>
+    <van-nav-bar title="订单详情" left-text left-arrow @click-left="navBack" v-if="!navBarHide"></van-nav-bar>
     <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
       <van-card
         :price="(item.price / 100).toFixed(2)"
@@ -27,14 +21,12 @@
         </template>
       </van-cell>
       <van-cell title="创建时间">
-        <template slot="default"> {{ dateFormat(order.create_time) }}</template>
+        <template slot="default">{{ dateFormat(order.create_time) }}</template>
       </van-cell>
       <van-cell title="订单金额">
         <template slot="default">
-          <span class="text-red-700"
-            >￥{{ (order.total / 100).toFixed(2) }}</span
-          ></template
-        >
+          <span class="text-red-700">￥{{ (order.total / 100).toFixed(2) }}</span>
+        </template>
       </van-cell>
       <div class="p-4 text-right">
         <van-button
@@ -45,8 +37,7 @@
           size="small"
           v-if="order.status == 0"
           @click="orderCancelShow(order)"
-          >取消</van-button
-        >
+        >取消</van-button>
         <van-button
           plain
           hairline
@@ -55,17 +46,8 @@
           size="small"
           v-if="order.status == 0"
           @click="goToPayment(order)"
-          >支付</van-button
-        >
-        <van-button
-          plain
-          hairline
-          round
-          type="warning"
-          size="small"
-          v-if="order.status == 2"
-          >确认收货</van-button
-        >
+        >支付</van-button>
+        <van-button plain hairline round type="warning" size="small" v-if="order.status == 2">确认收货</van-button>
       </div>
     </van-pull-refresh>
     <van-action-sheet v-model="orderCancel.show" title="取消订单">
@@ -75,33 +57,16 @@
         <div class="mt-4">
           <van-radio-group v-model="orderCancel.reason">
             <van-cell-group>
-              <van-cell
-                :title="item"
-                clickable
-                v-for="item in orderCancelReasons"
-                :key="item"
-              >
-                <van-radio
-                  slot="right-icon"
-                  :name="item"
-                  checked-color="#07c160"
-                />
+              <van-cell :title="item" clickable v-for="item in orderCancelReasons" :key="item">
+                <van-radio slot="right-icon" :name="item" checked-color="#07c160" />
               </van-cell>
             </van-cell-group>
           </van-radio-group>
         </div>
-        <div class="">
+        <div class>
           <van-goods-action class="p-4" style="position: unset;">
-            <van-goods-action-button
-              type="warning"
-              text="暂不取消"
-              @click="orderCancelClose"
-            />
-            <van-goods-action-button
-              type="danger"
-              text="确认取消"
-              @click="orderCancelSubmit"
-            />
+            <van-goods-action-button type="warning" text="暂不取消" @click="orderCancelClose" />
+            <van-goods-action-button type="danger" text="确认取消" @click="orderCancelSubmit" />
           </van-goods-action>
         </div>
       </div>
@@ -116,7 +81,9 @@ import config from "@/config/index";
 
 export default {
   head() {
-    title: "订单详情";
+    return {
+      title: "订单详情"
+    };
   },
   data() {
     return {
