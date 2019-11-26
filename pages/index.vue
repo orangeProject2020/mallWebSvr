@@ -3,8 +3,26 @@
 </template>
 
 <script>
+
 export default {
+  head() {
+    return {
+      title: "商城"
+    };
+  },
+  data() {
+    return {}
+  },
+  beforeCreate() {
+    this.$toast.loading({
+      message: '加载中...',
+      forbidClick: true,
+      loadingType: 'spinner',
+      duration: 0
+    });
+  },
   async created() {
+    
     document.addEventListener("UniAppJSBridgeReady", () => {
       console.log("UniAppJSBridgeReady .................");
       this.$store.commit("isAppSet", true);
@@ -15,8 +33,9 @@ export default {
       // this.$router.push("/list?jump=" + jump);
       this.$router.push(decodeURIComponent(jump));
     } else {
-      this.$router.push("/list");
+      this.$router.push("/lists");
     }
+
   }
 };
 </script>

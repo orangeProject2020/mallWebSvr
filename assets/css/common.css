@@ -1,3 +1,36 @@
+@font-face {
+  font-family: 'webfont';
+  font-display: swap;
+  src: url('https://at.alicdn.com/t/webfont_xke9edyd1en.eot'); /* IE9*/
+  src: url('https://at.alicdn.com/t/webfont_xke9edyd1en.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('https://at.alicdn.com/t/webfont_xke9edyd1en.woff2') format('woff2'),
+  url('https://at.alicdn.com/t/webfont_xke9edyd1en.woff') format('woff'), /* chrome、firefox */
+  url('https://at.alicdn.com/t/webfont_xke9edyd1en.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+  url('https://at.alicdn.com/t/webfont_xke9edyd1en.svg#AlibabaPuHuiTiL') format('svg'); /* iOS 4.1- */
+}
+
+body, html {
+  /* font-family:"webfont" !important; */
+  /*  font-size:16px; */
+  /* font-size: 63%; */
+  font-style:normal;
+  -webkit-text-stroke-width: 0.2px;
+  font-family:"webfont", "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 62.5%;
+  word-spacing: 1px;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  box-sizing: border-box;
+  font-weight: lighter;
+}
+
 .van-card {
   margin-top: 0 !important;
+}
+
+.product-item {
+  width: 33.3%;
 }

@@ -49,6 +49,12 @@ export default {
     return await axios.post('/cart/clear')
   },
 
+  async getCategorys() {
+    let ret = await axios.post("/api/mall/goods/categorys", {
+      status: 1
+    });
+    return ret
+  },
   /**
    * 获取邀请码
    */
