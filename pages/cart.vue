@@ -6,8 +6,12 @@
       :left-arrow="leftArrow"
       @click-left="navBack"
       right-text="清空"
-      @click-right="clearCart"
-    />
+    >
+      <template slot="right">
+        <van-icon name="delete" @click="clearCart" size="20" class="pl-4" />
+        <van-icon name="wap-home-o" @click="navHome" size="20" class="pl-4" />
+      </template>
+    </van-nav-bar>
     <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
       <template v-if="items.length > 0">
         <div>
@@ -78,6 +82,9 @@ export default {
     },
     navBack() {
       this.$router.go(-1);
+    },
+    navHome() {
+      this.$router.replace("/list");
     },
     async getCartItems() {
       try {

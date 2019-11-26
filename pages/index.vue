@@ -10,7 +10,13 @@ export default {
       this.$store.commit("isAppSet", true);
     });
 
-    this.$router.push("/list");
+    let jump = this.$route.query.jump || "";
+    if (jump) {
+      // this.$router.push("/list?jump=" + jump);
+      this.$router.push(decodeURIComponent(jump));
+    } else {
+      this.$router.push("/list");
+    }
   }
 };
 </script>

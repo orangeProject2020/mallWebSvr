@@ -1,6 +1,8 @@
 <template>
   <div class="pb-20">
-    <van-nav-bar title="商品详情" left-text left-arrow @click-left="navBack" />
+    <van-nav-bar title="商品详情" left-text left-arrow @click-left="navBack" @click-right="navHome">
+      <van-icon name="wap-home-o" slot="right" size="20" />
+    </van-nav-bar>
     <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
       <van-image :src="goods.cover">
         <template v-slot:loading>
@@ -98,6 +100,9 @@ export default {
     },
     navBack() {
       this.$router.go(-1);
+    },
+    navHome() {
+      this.$router.replace("/list");
     },
     addCart() {
       if (!this.goods.id) {
