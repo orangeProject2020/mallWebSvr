@@ -1,12 +1,6 @@
 <template>
   <div>
-    <van-nav-bar
-      title="demo"
-      left-text
-      left-arrow
-      @click-left="navBack"
-      v-if="!navBarHide"
-    ></van-nav-bar>
+    <van-nav-bar title="demo" left-text left-arrow @click-left="navBack"></van-nav-bar>
   </div>
 </template>
 
@@ -16,24 +10,22 @@ import utils from "@/assets/js/utils";
 export default {
   head() {
     return {
-      title: "地址管理"
+      title: "demo"
     };
   },
   data() {
-    return {
-      navBarHide: false
-    };
+    return {};
   },
   methods: {
     ...utils,
     navBack() {
-      this.$router.go(-1);
+      if (this.$store.state.isApp) {
+        uni.navigateBack();
+      } else {
+        this.$router.go(-1);
+      }
     }
   },
-  created() {
-    if (this.$route.query.from === "appTab") {
-      this.navBarHide = true;
-    }
-  }
+  created() {}
 };
 </script>

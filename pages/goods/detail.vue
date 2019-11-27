@@ -67,6 +67,11 @@ import apis from "@/assets/js/apis";
 import utils from "@/assets/js/utils";
 import uniCart from "@/assets/js/uniCart";
 export default {
+  head() {
+    return {
+      title: "商品详情"
+    };
+  },
   data() {
     return {
       isLoading: false,
@@ -99,10 +104,20 @@ export default {
       return "¥" + (this.goods.price / 100).toFixed(2);
     },
     navBack() {
-      this.$router.go(-1);
+      if (this.$store.state.isApp) {
+        uni.navigateBack();
+      } else {
+        this.$router.go(-1);
+      }
     },
     navHome() {
-      this.$router.replace("/list");
+      if (this.$store.state.isApp) {
+        uni.switchTab({
+          url: "/pages/mall/index"
+        });
+      } else {
+        this.$router.replace("/list");
+      }
     },
     addCart() {
       if (!this.goods.id) {
@@ -153,14 +168,7 @@ export default {
     },
     goCart() {
       console.log("/goCart isApp:", this.$store.state.isApp);
-      // if (this.$store.state.isApp) {
-      //   uni.switchTab({
-      //     url: "/pages/cart/index"
-      //   });
-      // } else {
-      //   this.$router.push("/cart");
-      // }
-      this.$router.push("/cart");
+      this.$router.push("/cart?from=" + this.$route.query.from);
     },
     onClickIcon() {
       // Toast("点击图标");
@@ -178,16 +186,22 @@ export default {
     }
   },
   async created() {
-    document.addEventListener("UniAppJSBridgeReady", () => {
-      console.log("UniAppJSBridgeReady .................");
-      this.$store.commit("isAppSet", true);
-    });
-
     let id = this.$route.query.id;
-    console.log("/fetch id", id);
+    console.log("/created id", id);
     let goodsRet = await this.getGoodsInfo(id);
     if (goodsRet.code !== 0) {
-      this.$router.go(-1);
+      // this.$router.go(-1);
+      // this.$toast.fail("获取商品信息错误");
+      setTimeout(() => {
+        this.navBack();
+      }, 1000);
+
+      // 获取用户信息错误
+    } else if (goodsRet.data.status != 1) {
+      this.$toast.fail("商品已下架");
+      setTimeout(() => {
+        this.navBack();
+      }, 1000);
     }
   }
 };

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <van-nav-bar title="地址信息变更" left-text left-arrow @click-left="navBack" v-if="!navBarHide"></van-nav-bar>
+    <van-nav-bar title="地址信息变更" left-text left-arrow @click-left="navBack"></van-nav-bar>
 
     <van-address-edit
       :area-list="areaList"
@@ -28,59 +28,56 @@ export default {
   },
   data() {
     return {
-      navBarHide: false,
       areaList: {},
-      addressInfo: {
-      },
+      addressInfo: {},
       searchResult: []
     };
   },
   methods: {
     ...utils,
     navBack() {
-      this.$router.go(-1)
+      if (this.$store.state.isApp) {
+        uni.navigateBack();
+      } else {
+        this.$router.go(-1);
+      }
     },
     async onSave(data) {
-      console.log('/onSave data', data)
+      console.log("/onSave data", data);
       try {
-        let ret = await apis.addressUpdate(data)
-        console.log('/onSave ret:', ret)
+        let ret = await apis.addressUpdate(data);
+        console.log("/onSave ret:", ret);
         if (ret.code == 0) {
-          this.$router.go(-1)
+          this.$router.go(-1);
         } else {
-          throw new Error(ret.message)
+          throw new Error(ret.message);
         }
-      } catch(err) {
+      } catch (err) {
         this.$toast.fail(err.message || "报错用户地址信息失败");
       }
-      
     },
     async onDelete(data) {
-      console.log('/onDelete data', data.id)
+      console.log("/onDelete data", data.id);
       try {
-        let ret = await apis.addressDelete(data)
-        console.log('/onDelete ret:', ret)
+        let ret = await apis.addressDelete(data);
+        console.log("/onDelete ret:", ret);
         if (ret.code == 0) {
-          this.$router.go(-1)
+          this.$router.go(-1);
         } else {
-          throw new Error(ret.message)
+          throw new Error(ret.message);
         }
-      } catch(err) {
+      } catch (err) {
         this.$toast.fail(err.message || "报错用户地址信息失败");
       }
     }
   },
   async created() {
-    if (this.$route.query.from === "appTab") {
-      this.navBarHide = true;
-    }
+    let areaData = await axios.get("/api/area");
+    console.log("/created area", areaData.data);
+    this.areaList = areaData.data;
 
-    let areaData = await axios.get('/api/area')
-    console.log('/created area',areaData.data)
-    this.areaList = areaData.data
-
-    let address = this.$store.state.address
-    this.addressInfo = address
+    let address = this.$store.state.address;
+    this.addressInfo = address;
   }
 };
 </script>

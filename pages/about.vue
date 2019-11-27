@@ -1,6 +1,6 @@
 <template>
   <div>
-    <van-nav-bar title="关于" left-text left-arrow @click-left="navBack" v-if="!navBarHide"></van-nav-bar>
+    <van-nav-bar title="关于" left-text left-arrow @click-left="navBack"></van-nav-bar>
   </div>
 </template>
 
@@ -14,20 +14,18 @@ export default {
     };
   },
   data() {
-    return {
-      navBarHide: false
-    };
+    return {};
   },
   methods: {
     ...utils,
     navBack() {
-      this.$router.go(-1);
+      if (this.$store.state.isApp) {
+        uni.navigateBack();
+      } else {
+        this.$router.go(-1);
+      }
     }
   },
-  created() {
-    if (this.$route.query.from === "appTab") {
-      this.navBarHide = true;
-    }
-  }
+  created() {}
 };
 </script>

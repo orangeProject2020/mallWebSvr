@@ -1,6 +1,6 @@
 <template>
   <div>
-    <van-nav-bar title="收益记录" left-text left-arrow @click-left="navBack" v-if="!navBarHide"></van-nav-bar>
+    <van-nav-bar title="收益记录" left-text left-arrow @click-left="navBack"></van-nav-bar>
 
     <van-list
       v-model="listData.loading"
@@ -33,7 +33,6 @@ export default {
   },
   data() {
     return {
-      navBarHide: false,
       listData: {
         page: 1,
         count: 0,
@@ -48,7 +47,11 @@ export default {
   methods: {
     ...utils,
     navBack() {
-      this.$router.go(-1);
+      if (this.$store.state.isApp) {
+        uni.navigateBack();
+      } else {
+        this.$router.go(-1);
+      }
     },
     async listLoad() {
       this.listData.loading = true;
@@ -81,10 +84,6 @@ export default {
       this.listData.loading = false;
     }
   },
-  async created() {
-    if (this.$route.query.from === "appTab") {
-      this.navBarHide = true;
-    }
-  }
+  async created() {}
 };
 </script>

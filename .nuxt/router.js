@@ -7,7 +7,6 @@ const _16f48e03 = () => interopDefault(import('../pages/about.vue' /* webpackChu
 const _505cf222 = () => interopDefault(import('../pages/auth.vue' /* webpackChunkName: "pages/auth" */))
 const _093bd8cc = () => interopDefault(import('../pages/cart.vue' /* webpackChunkName: "pages/cart" */))
 const _4b335a18 = () => interopDefault(import('../pages/list.vue' /* webpackChunkName: "pages/list" */))
-const _1ee38a0b = () => interopDefault(import('../pages/lists.vue' /* webpackChunkName: "pages/lists" */))
 const _5f74cf08 = () => interopDefault(import('../pages/payment.vue' /* webpackChunkName: "pages/payment" */))
 const _6245ea12 = () => interopDefault(import('../pages/protocol.vue' /* webpackChunkName: "pages/protocol" */))
 const _48a1605a = () => interopDefault(import('../pages/address/list.vue' /* webpackChunkName: "pages/address/list" */))
@@ -19,8 +18,6 @@ const _bb130234 = () => interopDefault(import('../pages/invite/join.vue' /* webp
 const _d2cebf16 = () => interopDefault(import('../pages/order/confirm.vue' /* webpackChunkName: "pages/order/confirm" */))
 const _52bffbac = () => interopDefault(import('../pages/order/detail.vue' /* webpackChunkName: "pages/order/detail" */))
 const _56af1a39 = () => interopDefault(import('../pages/order/list.vue' /* webpackChunkName: "pages/order/list" */))
-const _f284cfac = () => interopDefault(import('../pages/user/address.vue' /* webpackChunkName: "pages/user/address" */))
-const _009cfd30 = () => interopDefault(import('../pages/user/info.vue' /* webpackChunkName: "pages/user/info" */))
 const _df30347a = () => interopDefault(import('../pages/user/invite.vue' /* webpackChunkName: "pages/user/invite" */))
 const _07aedf7e = () => interopDefault(import('../pages/user/profit.vue' /* webpackChunkName: "pages/user/profit" */))
 const _b5fd8e78 = () => interopDefault(import('../pages/user/withdraw.vue' /* webpackChunkName: "pages/user/withdraw" */))
@@ -51,10 +48,6 @@ export const routerOptions = {
     path: "/list",
     component: _4b335a18,
     name: "list"
-  }, {
-    path: "/lists",
-    component: _1ee38a0b,
-    name: "lists"
   }, {
     path: "/payment",
     component: _5f74cf08,
@@ -99,14 +92,6 @@ export const routerOptions = {
     path: "/order/list",
     component: _56af1a39,
     name: "order-list"
-  }, {
-    path: "/user/address",
-    component: _f284cfac,
-    name: "user-address"
-  }, {
-    path: "/user/info",
-    component: _009cfd30,
-    name: "user-info"
   }, {
     path: "/user/invite",
     component: _df30347a,

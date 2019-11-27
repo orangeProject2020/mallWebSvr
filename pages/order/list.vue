@@ -1,6 +1,6 @@
 <template>
   <div>
-    <van-nav-bar title="订单列表" left-text left-arrow @click-left="navBack" v-if="!navBarHide"></van-nav-bar>
+    <van-nav-bar title="订单列表" left-text left-arrow @click-left="navBack"></van-nav-bar>
     <van-tabs v-model="statusActive" @click="statusChange">
       <van-tab title="待付款"></van-tab>
       <van-tab title="待发货"></van-tab>
@@ -116,7 +116,6 @@ export default {
   },
   data() {
     return {
-      navBarHide: false,
       isLoading: false,
       statusActive: 0,
       listLoading: false,
@@ -135,7 +134,11 @@ export default {
   methods: {
     ...utils,
     navBack() {
-      this.$router.go(-1);
+      if (this.$store.state.isApp) {
+        uni.navigateBack();
+      } else {
+        this.$router.go(-1);
+      }
     },
     async onRefresh() {
       this.isLoading = true;
@@ -195,16 +198,10 @@ export default {
     },
     goToDetail(item) {
       let url = "/order/detail?id=" + item.id;
-      if (this.navBarHide) {
-        url += "&from=appTab";
-      }
       this.$router.push(url);
     },
     goToPayment(item) {
       let url = "/payment?orderId=" + item.id;
-      if (this.navBarHide) {
-        url += "&from=appTab";
-      }
       this.$router.push(url);
     },
     orderCancelShow(order) {
@@ -244,10 +241,6 @@ export default {
     }
   },
   created() {
-    if (this.$route.query.from === "appTab") {
-      this.navBarHide = true;
-    }
-
     let status = this.$route.query.status || "0";
     // this.statusActive = status;
     console.log("/created status", status);
