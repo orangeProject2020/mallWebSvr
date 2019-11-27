@@ -25,7 +25,7 @@ module.exports = {
     }],
     script: [{
       type: "text/javascript",
-      src: 'https://js.cdn.aliyun.dcloud.net.cn/dev/uni-app/uni.webview.1.5.2.js'
+      src: '/uni.webview.js'
     }]
   },
   /*

@@ -17,7 +17,7 @@ import _6f6c098b from '../layouts/default.vue'
 const layouts = { "_default": _6f6c098b }
 
 export default {
-  head: {"title":"","meta":[{"charset":"utf-8"},{"name":"viewport","content":"width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, viewport-fit=cover"},{"hid":"description","name":"description","content":"My bedazzling Nuxt.js project"}],"link":[{"rel":"icon","type":"image\u002Fx-icon","href":"\u002Ffavicon.ico"}],"script":[{"type":"text\u002Fjavascript","src":"https:\u002F\u002Fjs.cdn.aliyun.dcloud.net.cn\u002Fdev\u002Funi-app\u002Funi.webview.1.5.2.js"}],"style":[]},
+  head: {"title":"","meta":[{"charset":"utf-8"},{"name":"viewport","content":"width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, viewport-fit=cover"},{"hid":"description","name":"description","content":"My bedazzling Nuxt.js project"}],"link":[{"rel":"icon","type":"image\u002Fx-icon","href":"\u002Ffavicon.ico"}],"script":[{"type":"text\u002Fjavascript","src":"\u002Funi.webview.js"}],"style":[]},
 
   render (h, props) {
     const loadingEl = h('NuxtLoading', { ref: 'loading' })
