@@ -1,7 +1,7 @@
 <template>
   <div>
     <van-nav-bar title="确认订单" left-text left-arrow @click-left="navBack" @click-right="navHome">
-      <van-icon name="home-o" slot="right" size="2rem" />
+      <van-icon name="wap-home-o" slot="right" size="2rem" />
     </van-nav-bar>
 
     <template v-for="(values, businessId) in businessData">
@@ -37,17 +37,26 @@ export default {
       total: 0,
       business_id: [],
       itemsChecked: [],
-      submitLoading: false,
-      leftArrow: false
+      submitLoading: false
     };
   },
   methods: {
     ...utils,
     navBack() {
-      this.$router.go(-1);
+      if (this.$store.state.isApp) {
+        uni.navigateBack();
+      } else {
+        this.$router.go(-1);
+      }
     },
     navHome() {
-      this.$router.replace("/list");
+      if (this.$store.state.isApp) {
+        uni.switchTab({
+          url: "/pages/mall/index"
+        });
+      } else {
+        this.$router.replace("/list");
+      }
     },
     async onSubmit() {
       this.submitLoading = true;

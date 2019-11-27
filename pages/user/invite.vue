@@ -1,12 +1,6 @@
 <template>
   <div>
-    <van-nav-bar
-      title="我的邀请"
-      left-text
-      left-arrow
-      @click-left="navBack"
-      v-if="!navBarHide"
-    ></van-nav-bar>
+    <van-nav-bar title="我的邀请" left-text left-arrow @click-left="navBack"></van-nav-bar>
 
     <van-tabs v-model="activeTab" @change="tabChange">
       <van-tab title="邀请码" name="code">
@@ -19,7 +13,7 @@
         </div>
         <div class="text-center mt-4">
           <div class="text-gray-500">我的邀请码:</div>
-          <div class="text-3xl ">{{ inviteCode }}</div>
+          <div class="text-3xl">{{ inviteCode }}</div>
         </div>
         <div class="p-12">
           <div class="border-t text-center">
@@ -45,9 +39,7 @@
             :key="item.id"
             :title="item.username || item.mobile"
           >
-            <template slot="default">
-              {{ dateFormat(item.create_time) }}
-            </template>
+            <template slot="default">{{ dateFormat(item.create_time) }}</template>
           </van-cell>
         </van-list>
       </van-tab>
@@ -67,7 +59,6 @@ export default {
   },
   data() {
     return {
-      navBarHide: false,
       activeTab: "code",
       inviteCode: "",
       listData: {
@@ -84,7 +75,11 @@ export default {
   methods: {
     ...utils,
     navBack() {
-      this.$router.go(-1);
+      if (this.$store.state.isApp) {
+        uni.navigateBack();
+      } else {
+        this.$router.go(-1);
+      }
     },
     async getUserInviteCode() {
       try {
@@ -162,10 +157,6 @@ export default {
     }
   },
   async created() {
-    if (this.$route.query.from === "appTab") {
-      this.navBarHide = true;
-    }
-
     let activeTab = this.$route.query.active || "code";
     console.log("/activeTab ", activeTab);
     this.activeTab = activeTab;

@@ -6,9 +6,8 @@
       :left-arrow="leftArrow"
       @click-left="navBack"
       @click-right="navHome"
-      v-if="!navBarHide"
     >
-      <van-icon name="home-o" slot="right" size="2rem" />
+      <van-icon name="wap-home-o" slot="right" size="2rem" />
     </van-nav-bar>
 
     <!-- <template v-for="order in orders">
@@ -24,12 +23,10 @@
           />
         </template>
       </div>
-    </template> -->
+    </template>-->
     <div class="p-8 text-center">
       <div class="text-xl text-gray-500">需支付金额</div>
-      <div class="text-6xl text-red-600 mt-4 mb-8">
-        ￥ {{ (amount / 100).toFixed(2) }}
-      </div>
+      <div class="text-6xl text-red-600 mt-4 mb-8">￥ {{ (amount / 100).toFixed(2) }}</div>
     </div>
 
     <van-cell
@@ -80,7 +77,6 @@ export default {
   },
   data() {
     return {
-      navBarHide: false,
       leftArrow: false,
       total: 0,
       amount: 0,
@@ -181,10 +177,20 @@ export default {
     },
     async wxpaySubmit() {},
     navBack() {
-      this.$router.go(-1);
+      if (this.$store.state.isApp) {
+        uni.navigateBack();
+      } else {
+        this.$router.go(-1);
+      }
     },
     navHome() {
-      this.$router.replace("/list");
+      if (this.$store.state.isApp) {
+        uni.switchTab({
+          url: "/pages/mall/index"
+        });
+      } else {
+        this.$router.replace("/list");
+      }
     },
     payTypeChoose() {
       return;
@@ -226,10 +232,6 @@ export default {
     }
   },
   async created() {
-    // let from = this.$router.query.from || "";
-    if (this.$route.query.from === "appTab") {
-      this.navBarHide = true;
-    }
     let orderIds = this.$route.query.orderIds || this.$route.query.orderId;
     orderIds = orderIds.split(",");
     if (orderIds.length === 0) {

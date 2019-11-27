@@ -1,6 +1,6 @@
 <template>
   <div>
-    <van-nav-bar title="用户提现" left-text left-arrow @click-left="navBack" v-if="!navBarHide"></van-nav-bar>
+    <van-nav-bar title="用户提现" left-text left-arrow @click-left="navBack"></van-nav-bar>
     <van-tabs v-model="statusActive" @click="statusChange">
       <van-tab title="提现申请">
         <div class="text-center p-4 text-2xl text-gray-500">
@@ -72,7 +72,6 @@ export default {
   },
   data() {
     return {
-      navBarHide: false,
       statusActive: 0,
       listData: {
         list: [],
@@ -87,6 +86,13 @@ export default {
   },
   methods: {
     ...utils,
+    navBack() {
+      if (this.$store.state.isApp) {
+        uni.navigateBack();
+      } else {
+        this.$router.go(-1);
+      }
+    },
     statusChange(name, title = "") {
       this.statusActive = name;
       this.listData.page = 1;
@@ -150,10 +156,6 @@ export default {
     }
   },
   created() {
-    if (this.$route.query.from === "appTab") {
-      this.navBarHide = true;
-    }
-
     let status = this.$route.query.status || "0";
     console.log("/created status", status);
     this.statusChange(parseInt(status));

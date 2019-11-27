@@ -1,6 +1,6 @@
 <template>
   <div>
-    <van-nav-bar title="订单详情" left-text left-arrow @click-left="navBack" v-if="!navBarHide"></van-nav-bar>
+    <van-nav-bar title="订单详情" left-text left-arrow @click-left="navBack"></van-nav-bar>
     <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
       <van-card
         :price="(item.price / 100).toFixed(2)"
@@ -87,7 +87,6 @@ export default {
   },
   data() {
     return {
-      navBarHide: false,
       isLoading: false,
       order: {},
       orderCancel: {
@@ -101,7 +100,11 @@ export default {
   methods: {
     ...utils,
     navBack() {
-      this.$router.go(-1);
+      if (this.$store.state.isApp) {
+        uni.navigateBack();
+      } else {
+        this.$router.go(-1);
+      }
     },
     async onRefresh() {
       this.order = {};
@@ -164,9 +167,6 @@ export default {
     }
   },
   async created() {
-    if (this.$route.query.from === "appTab") {
-      this.navBarHide = true;
-    }
     await this.getDetail(this.$route.query.id);
   }
 };

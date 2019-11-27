@@ -1,12 +1,6 @@
 <template>
   <div>
-    <van-nav-bar
-      title="购物车"
-      left-text
-      :left-arrow="leftArrow"
-      @click-left="navBack"
-      right-text="清空"
-    >
+    <van-nav-bar title="购物车" left-text left-arrow @click-left="navBack" right-text="清空">
       <template slot="right">
         <van-icon name="delete" @click="clearCart" size="20" class="pl-4" />
         <van-icon name="wap-home-o" @click="navHome" size="20" class="pl-4" />
@@ -57,9 +51,13 @@ import utils from "@/assets/js/utils";
 import uniCart from "@/assets/js/uniCart";
 
 export default {
+  head() {
+    return {
+      title: "购物车"
+    };
+  },
   data() {
     return {
-      leftArrow: false,
       isLoading: false,
       items: [],
       result: [],
@@ -81,10 +79,20 @@ export default {
       this.isLoading = false;
     },
     navBack() {
-      this.$router.go(-1);
+      if (this.$store.state.isApp) {
+        uni.navigateBack();
+      } else {
+        this.$router.go(-1);
+      }
     },
     navHome() {
-      this.$router.replace("/list");
+      if (this.$store.state.isApp) {
+        uni.switchTab({
+          url: "/pages/mall/index"
+        });
+      } else {
+        this.$router.replace("/list");
+      }
     },
     async getCartItems() {
       try {
@@ -196,86 +204,9 @@ export default {
       this.$router.push("/order/confirm");
       this.submitLoading = false;
       return;
-
-      // let business = {}; // 提交的数据，按商户分类
-      // let itemsChecked = []; // 选择的购物车条目
-      // items.forEach(item => {
-      //   if (results.indexOf(item.id) > -1) {
-      //     if (!business[item.business_id]) {
-      //       business[item.business_id] = [];
-      //     }
-      //     business[item.business_id].push({
-      //       goods_id: item.id,
-      //       num: item.num
-      //     });
-      //     itemsChecked.push(item);
-      //   }
-      // });
-      // let orders = [];
-      // Object.keys(business).forEach(businessId => {
-      //   orders.push({
-      //     business_id: businessId,
-      //     goods_items: business[businessId],
-      //     score: 0, // TODO
-      //     remark: "" //TODO
-      //   });
-      // });
-
-      // let submitData = {
-      //   orders: orders,
-      //   address: {} // TODO
-      // };
-
-      // console.log("/onSubmit data", submitData);
-
-      // try {
-      //   let createOrderRet = await apis.createOrder(submitData);
-      //   if (createOrderRet.code === 0) {
-      //     // this.submitLoading = false;
-      //     this.$toast.success("提交订单成功");
-      //     let ordersData = createOrderRet.data.orders || [];
-      //     let orderIds = [];
-      //     if (ordersData.length) {
-      //       ordersData.forEach(order => {
-      //         orderIds.push(order.id);
-      //       });
-      //       this.submitSuccess(itemsChecked);
-      //       this.$router.replace("/payment?orderIds=" + orderIds.join(","));
-      //     }
-      //   } else {
-      //     console.log("/onSubmit fail message:", createOrderRet.message);
-      //     this.$toast.fail(`提交订单出现错误(${createOrderRet.message})!`);
-      //   }
-      // } catch (err) {
-      //   console.log("/onSubmit err", err);
-      //   this.$toast.fail("提交订单出现错误，请稍后重试");
-      // }
-
-      // this.submitLoading = false;
     }
-    // submitSuccess(checkedItems) {
-    //   // 请空购物车
-    //   let isApp = this.$store.state.isApp;
-    //   console.log("/submitSuccess isApp", isApp);
-    //   for (let index = 0; index < checkedItems.length; index++) {
-    //     let item = checkedItems[index];
-    //     console.log("/submitSuccess item", item.id, item.num);
-    //     if (!isApp) {
-    //       apis.cartItemMinus(item, item.num);
-    //     } else {
-    //       uniCart.cartItemMinus(item, item.num);
-    //     }
-    //   }
-    // }
   },
   async created() {
-    document.addEventListener("UniAppJSBridgeReady", () => {
-      console.log("UniAppJSBridgeReady .................");
-      this.$store.commit("isAppSet", true);
-    });
-
-    let fromAppTab = this.$route.query.from === "appTab" ? true : false;
-    this.leftArrow = fromAppTab ? false : true;
     await this.getCartItems();
   }
 };
