@@ -34,7 +34,12 @@
     <van-goods-action>
       <van-goods-action-icon icon="chat-o" text="客服" @click="onClickIcon" />
       <van-goods-action-icon icon="cart-o" text="购物车" @click="goCart" />
-      <van-goods-action-button type="warning" text="加入购物车" @click="addCart" />
+      <van-goods-action-button
+        type="warning"
+        text="加入购物车"
+        @click="addCart"
+        v-if="goods.package_level == 0"
+      />
       <van-goods-action-button type="danger" text="立即购买" @click="goBuy" />
     </van-goods-action>
 
@@ -43,7 +48,7 @@
         <van-cell-group>
           <van-cell title="购买数量">
             <template slot="default">
-              <van-stepper v-model="num" integer />
+              <van-stepper v-model="num" integer :max="buyCount" />
             </template>
           </van-cell>
         </van-cell-group>
@@ -85,7 +90,8 @@ export default {
         stock: "",
         express: "免运费",
         pics: []
-      }
+      },
+      buyCount: ""
     };
   },
   methods: {
@@ -179,6 +185,12 @@ export default {
       let goodsRet = await axios.post("/api/mall/goods/detail", { id: id });
       if (goodsRet.code === 0) {
         this.goods = goodsRet.data;
+        if (this.goods.package_level > 0) {
+          this.goods.buy_limit = 1;
+          this.buyCount = 1;
+        } else {
+          this.buyCount = this.goods.stock == -1 ? 10000 : this.goods.stock;
+        }
       } else {
         this.$toast.fail("获取商品信息失败");
       }
