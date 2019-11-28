@@ -12,7 +12,7 @@ import { createStore } from './store.js'
 
 /* Plugins */
 
-import nuxt_plugin_axios_2b3e61d6 from 'nuxt_plugin_axios_2b3e61d6' // Source: ./axios.js (mode: 'all')
+import nuxt_plugin_axios_2d253362 from 'nuxt_plugin_axios_2d253362' // Source: ./axios.js (mode: 'all')
 import nuxt_plugin_vant_925e8cb6 from 'nuxt_plugin_vant_925e8cb6' // Source: ../plugins/vant (mode: 'all')
 
 // Component: <ClientOnly>
@@ -42,7 +42,7 @@ Vue.component(Nuxt.name, Nuxt)
 
 Vue.use(Meta, {"keyName":"head","attribute":"data-n-head","ssrAttribute":"data-n-head-ssr","tagIDKeyName":"hid"})
 
-const defaultTransition = {"name":"page","mode":"out-in","appear":true,"appearClass":"appear","appearActiveClass":"appear-active","appearToClass":"appear-to"}
+const defaultTransition = {"name":"page","mode":"out-in","appear":false,"appearClass":"appear","appearActiveClass":"appear-active","appearToClass":"appear-to"}
 
 async function createApp (ssrContext) {
   const router = await createRouter(ssrContext)
@@ -50,6 +50,10 @@ async function createApp (ssrContext) {
   const store = createStore(ssrContext)
   // Add this.$router into store actions/mutations
   store.$router = router
+
+  // Fix SSR caveat https://github.com/nuxt/nuxt.js/issues/3757#issuecomment-414689141
+  const registerModule = store.registerModule
+  store.registerModule = (path, rawModule, options) => registerModule.call(store, path, rawModule, Object.assign({ preserveState: process.client }, options))
 
   // Create Root instance
 
@@ -166,8 +170,8 @@ async function createApp (ssrContext) {
 
   // Plugin execution
 
-  if (typeof nuxt_plugin_axios_2b3e61d6 === 'function') {
-    await nuxt_plugin_axios_2b3e61d6(app.context, inject)
+  if (typeof nuxt_plugin_axios_2d253362 === 'function') {
+    await nuxt_plugin_axios_2d253362(app.context, inject)
   }
 
   if (typeof nuxt_plugin_vant_925e8cb6 === 'function') {

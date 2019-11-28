@@ -3,25 +3,25 @@ import Router from 'vue-router'
 import { interopDefault } from './utils'
 import scrollBehavior from './router.scrollBehavior.js'
 
-const _16f48e03 = () => interopDefault(import('../pages/about.vue' /* webpackChunkName: "pages/about" */))
-const _505cf222 = () => interopDefault(import('../pages/auth.vue' /* webpackChunkName: "pages/auth" */))
-const _093bd8cc = () => interopDefault(import('../pages/cart.vue' /* webpackChunkName: "pages/cart" */))
-const _4b335a18 = () => interopDefault(import('../pages/list.vue' /* webpackChunkName: "pages/list" */))
-const _5f74cf08 = () => interopDefault(import('../pages/payment.vue' /* webpackChunkName: "pages/payment" */))
-const _6245ea12 = () => interopDefault(import('../pages/protocol.vue' /* webpackChunkName: "pages/protocol" */))
-const _48a1605a = () => interopDefault(import('../pages/address/list.vue' /* webpackChunkName: "pages/address/list" */))
-const _76ab5184 = () => interopDefault(import('../pages/address/update.vue' /* webpackChunkName: "pages/address/update" */))
-const _9fa1209e = () => interopDefault(import('../pages/demo/page.vue' /* webpackChunkName: "pages/demo/page" */))
-const _6055a594 = () => interopDefault(import('../pages/download/app.vue' /* webpackChunkName: "pages/download/app" */))
-const _065516a4 = () => interopDefault(import('../pages/goods/detail.vue' /* webpackChunkName: "pages/goods/detail" */))
-const _bb130234 = () => interopDefault(import('../pages/invite/join.vue' /* webpackChunkName: "pages/invite/join" */))
-const _d2cebf16 = () => interopDefault(import('../pages/order/confirm.vue' /* webpackChunkName: "pages/order/confirm" */))
-const _52bffbac = () => interopDefault(import('../pages/order/detail.vue' /* webpackChunkName: "pages/order/detail" */))
-const _56af1a39 = () => interopDefault(import('../pages/order/list.vue' /* webpackChunkName: "pages/order/list" */))
-const _df30347a = () => interopDefault(import('../pages/user/invite.vue' /* webpackChunkName: "pages/user/invite" */))
-const _07aedf7e = () => interopDefault(import('../pages/user/profit.vue' /* webpackChunkName: "pages/user/profit" */))
-const _b5fd8e78 = () => interopDefault(import('../pages/user/withdraw.vue' /* webpackChunkName: "pages/user/withdraw" */))
-const _36ac68c8 = () => interopDefault(import('../pages/index.vue' /* webpackChunkName: "pages/index" */))
+const _51e7edf7 = () => interopDefault(import('../pages/about.vue' /* webpackChunkName: "pages/about" */))
+const _5243c3ae = () => interopDefault(import('../pages/auth.vue' /* webpackChunkName: "pages/auth" */))
+const _056e35b4 = () => interopDefault(import('../pages/cart.vue' /* webpackChunkName: "pages/cart" */))
+const _4d1a2ba4 = () => interopDefault(import('../pages/list.vue' /* webpackChunkName: "pages/list" */))
+const _1be0cb70 = () => interopDefault(import('../pages/payment.vue' /* webpackChunkName: "pages/payment" */))
+const _ebddd4c4 = () => interopDefault(import('../pages/protocol.vue' /* webpackChunkName: "pages/protocol" */))
+const _e8bc5542 = () => interopDefault(import('../pages/address/list.vue' /* webpackChunkName: "pages/address/list" */))
+const _4211a9ca = () => interopDefault(import('../pages/address/update.vue' /* webpackChunkName: "pages/address/update" */))
+const _fc6c94b6 = () => interopDefault(import('../pages/demo/page.vue' /* webpackChunkName: "pages/demo/page" */))
+const _10482b20 = () => interopDefault(import('../pages/download/app.vue' /* webpackChunkName: "pages/download/app" */))
+const _9370c7a0 = () => interopDefault(import('../pages/goods/detail.vue' /* webpackChunkName: "pages/goods/detail" */))
+const _769717da = () => interopDefault(import('../pages/invite/join.vue' /* webpackChunkName: "pages/invite/join" */))
+const _3612672e = () => interopDefault(import('../pages/order/confirm.vue' /* webpackChunkName: "pages/order/confirm" */))
+const _02b28138 = () => interopDefault(import('../pages/order/detail.vue' /* webpackChunkName: "pages/order/detail" */))
+const _8f44da76 = () => interopDefault(import('../pages/order/list.vue' /* webpackChunkName: "pages/order/list" */))
+const _64887eb7 = () => interopDefault(import('../pages/user/invite.vue' /* webpackChunkName: "pages/user/invite" */))
+const _48610f1c = () => interopDefault(import('../pages/user/profit.vue' /* webpackChunkName: "pages/user/profit" */))
+const _19413690 = () => interopDefault(import('../pages/user/withdraw.vue' /* webpackChunkName: "pages/user/withdraw" */))
+const _719fc8bc = () => interopDefault(import('../pages/index.vue' /* webpackChunkName: "pages/index" */))
 
 Vue.use(Router)
 
@@ -34,79 +34,79 @@ export const routerOptions = {
 
   routes: [{
     path: "/about",
-    component: _16f48e03,
+    component: _51e7edf7,
     name: "about"
   }, {
     path: "/auth",
-    component: _505cf222,
+    component: _5243c3ae,
     name: "auth"
   }, {
     path: "/cart",
-    component: _093bd8cc,
+    component: _056e35b4,
     name: "cart"
   }, {
     path: "/list",
-    component: _4b335a18,
+    component: _4d1a2ba4,
     name: "list"
   }, {
     path: "/payment",
-    component: _5f74cf08,
+    component: _1be0cb70,
     name: "payment"
   }, {
     path: "/protocol",
-    component: _6245ea12,
+    component: _ebddd4c4,
     name: "protocol"
   }, {
     path: "/address/list",
-    component: _48a1605a,
+    component: _e8bc5542,
     name: "address-list"
   }, {
     path: "/address/update",
-    component: _76ab5184,
+    component: _4211a9ca,
     name: "address-update"
   }, {
     path: "/demo/page",
-    component: _9fa1209e,
+    component: _fc6c94b6,
     name: "demo-page"
   }, {
     path: "/download/app",
-    component: _6055a594,
+    component: _10482b20,
     name: "download-app"
   }, {
     path: "/goods/detail",
-    component: _065516a4,
+    component: _9370c7a0,
     name: "goods-detail"
   }, {
     path: "/invite/join",
-    component: _bb130234,
+    component: _769717da,
     name: "invite-join"
   }, {
     path: "/order/confirm",
-    component: _d2cebf16,
+    component: _3612672e,
     name: "order-confirm"
   }, {
     path: "/order/detail",
-    component: _52bffbac,
+    component: _02b28138,
     name: "order-detail"
   }, {
     path: "/order/list",
-    component: _56af1a39,
+    component: _8f44da76,
     name: "order-list"
   }, {
     path: "/user/invite",
-    component: _df30347a,
+    component: _64887eb7,
     name: "user-invite"
   }, {
     path: "/user/profit",
-    component: _07aedf7e,
+    component: _48610f1c,
     name: "user-profit"
   }, {
     path: "/user/withdraw",
-    component: _b5fd8e78,
+    component: _19413690,
     name: "user-withdraw"
   }, {
     path: "/",
-    component: _36ac68c8,
+    component: _719fc8bc,
     name: "index"
   }],
 
