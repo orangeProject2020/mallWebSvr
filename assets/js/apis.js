@@ -55,6 +55,13 @@ export default {
     });
     return ret
   },
+  async getGoodsList(data) {
+    let ret = await axios.post("/api/mall/goods/list", {
+      ...data,
+      status: 1
+    });
+    return ret
+  },
   /**
    * 获取邀请码
    */
