@@ -3,6 +3,7 @@
     <div class="flex">
       <div class="p-6 text-2xl" @click="navBack">返回</div>
       <van-search placeholder="请输入搜索关键词" v-model="search" class="flex-1" @search="searchList" />
+      <van-icon name="cart-o" class="p-6" size="20" @click="goCart"></van-icon>
     </div>
     <van-dropdown-menu>
       <van-dropdown-item v-model="activeType" :options="optionTypes" @change="activeChange" />
@@ -77,9 +78,10 @@ export default {
       activeType1: 0,
       activeSort: "",
       optionTypes: [
-        { text: "全部商品", value: "" },
-        { text: "新款商品", value: "new" },
-        { text: "推荐商品", value: "recommend" }
+        { text: "全部", value: "" },
+        { text: "套餐", value: "package" },
+        { text: "新款", value: "new" },
+        { text: "推荐", value: "recommend" }
       ],
       optionTypes1: [
         { text: "类别", value: 0 },
@@ -102,6 +104,9 @@ export default {
         this.$router.go(-1);
       }
     },
+    goCart() {
+      this.$router.push("/cart");
+    },
     async listLoad() {
       let data = {
         page: this.listData.page,
@@ -109,9 +114,10 @@ export default {
       };
       if (this.activeType == "new") {
         data.new = 1;
-      }
-      if (this.activeType == "recommend") {
+      } else if (this.activeType == "recommend") {
         data.recommend = 1;
+      } else if (this.activeType == "package") {
+        data.package = 1;
       }
       if (this.activeType1) {
         data.type_sub = this.activeType1;
@@ -159,7 +165,17 @@ export default {
       this.listLoad();
     }
   },
-  created() {}
+  created() {
+    let category = this.$route.query.category || "";
+    if (category) {
+      this.activeType = category;
+    }
+
+    let typeSub = this.$route.query.typeSub || 0;
+    if (typeSub) {
+      this.activeType1 = parseInt(typeSub);
+    }
+  }
 };
 </script>
 
