@@ -24,6 +24,7 @@
           :desc="item.description"
           title="商品标题"
           :lazy-load="true"
+          @click="goToDetail(item)"
         >
           <template slot="title">
             <span class="text-2xl text-black-50">{{item.title}}</span>
@@ -106,6 +107,9 @@ export default {
     },
     goCart() {
       this.$router.push("/cart");
+    },
+    goToDetail(item) {
+      this.$router.push("/goods/detail?id=" + item.id);
     },
     async listLoad() {
       let data = {
