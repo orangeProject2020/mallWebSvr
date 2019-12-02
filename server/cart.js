@@ -25,7 +25,7 @@ router.post('/plus', async (req, res) => {
     items.push({
       id: body.id,
       num: body.num,
-      cover: body.cover,
+      cover: body.thumb || body.cover,
       title: body.title,
       desc: body.description || '',
       price: body.price,

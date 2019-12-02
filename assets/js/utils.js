@@ -1,8 +1,8 @@
 import moment from 'moment'
 
 export default {
-  formatPrice(price) {
-    return (price / 100).toFixed(2);
+  formatPrice(num = 0) {
+    return (num / 100).toFixed(2);
   },
   unLimitTreeLevel(arr, id = 0) {
     var temp = [],

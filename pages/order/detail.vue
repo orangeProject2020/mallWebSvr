@@ -5,11 +5,17 @@
       <van-card
         :price="(item.price / 100).toFixed(2)"
         :desc="item.desc"
-        :title="item.name"
-        :thumb="item.cover"
         v-for="item in order.items"
         :key="item.id"
-      ></van-card>
+        :num="item.num"
+      >
+        <template slot="title">
+          <span class="text-2xl text-black-50">{{item.name}}</span>
+        </template>
+        <template slot="thumb">
+          <img :src="item.thumb || item.cover" alt style="width:60px;height:60px" />
+        </template>
+      </van-card>
       <van-cell title="订单编号" :value="order.order_no"></van-cell>
       <van-cell title="订单状态">
         <template slot="default">
@@ -28,6 +34,17 @@
           <span class="text-red-700">￥{{ (order.total / 100).toFixed(2) }}</span>
         </template>
       </van-cell>
+      <van-cell-group title="收货地址">
+        <van-cell
+          :title="addressData.name"
+          :value="addressData.tel"
+          :label="addressData.addressDetail"
+        ></van-cell>
+      </van-cell-group>
+      <van-cell-group v-if="order.status == 2" title="物流信息">
+        <van-cell title="物流公司" :value="expressData.company || ''"></van-cell>
+        <van-cell title="物流编号" :value="expressData.no || ''"></van-cell>
+      </van-cell-group>
       <div class="p-4 text-right">
         <van-button
           plain
@@ -47,7 +64,15 @@
           v-if="order.status == 0"
           @click="goToPayment(order)"
         >支付</van-button>
-        <van-button plain hairline round type="warning" size="small" v-if="order.status == 2">确认收货</van-button>
+        <van-button
+          plain
+          hairline
+          round
+          type="warning"
+          size="small"
+          v-if="order.status == 2"
+          @click="orderFinish(order)"
+        >确认收货</van-button>
       </div>
     </van-pull-refresh>
     <van-action-sheet v-model="orderCancel.show" title="取消订单">
@@ -89,6 +114,8 @@ export default {
     return {
       isLoading: false,
       order: {},
+      expressData: {},
+      addressData: {},
       orderCancel: {
         show: false,
         reason: "",
@@ -100,6 +127,7 @@ export default {
   methods: {
     ...utils,
     navBack() {
+      console.log("/navBack:", this.$store.state.isApp);
       if (this.$store.state.isApp) {
         uni.navigateBack();
       } else {
@@ -164,10 +192,65 @@ export default {
         // console.log(err);
         this.$toast.fail(err.message || "取消失败");
       }
+    },
+    async orderFinish(order) {
+      try {
+        let confirm = await this.$dialog.confirm({
+          title: "确认？",
+          message: "确认收货完成该订单"
+        });
+
+        if (confirm !== "confirm") {
+          return;
+        }
+      } catch (err) {
+        console.log("/orderComplete cancel");
+        return;
+      }
+
+      let data = {
+        id: order.id
+      };
+
+      try {
+        let ret = await apis.finishOrder(data);
+        console.log("/orderComplete ret:", ret);
+        if (ret.code === 0) {
+          this.$toast.success("确认订单完成成功");
+          this.onRefresh();
+        } else {
+          throw new Error(ret.message);
+        }
+      } catch (err) {
+        this.$toast.fail(err.message || "确认订单完成失败");
+      }
     }
   },
   async created() {
     await this.getDetail(this.$route.query.id);
+
+    this.expressData = this.order.express_info
+      ? JSON.parse(this.order.express_info)
+      : {};
+    let address = this.order.address ? JSON.parse(this.order.address) : {};
+    address.addressDetail =
+      address.province +
+      "/" +
+      address.city +
+      "/" +
+      address.county +
+      " " +
+      address.address;
+    this.addressData = address;
   }
 };
 </script>
+
+<style lang="less">
+.van-card__thumb {
+  height: 60px !important;
+}
+.van-card__content {
+  min-height: 60px !important;
+}
+</style>

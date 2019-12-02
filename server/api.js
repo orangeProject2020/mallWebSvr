@@ -35,7 +35,7 @@ router.use(async (req, res) => {
 
   let data = req.body || {}
 
-  let userId = req.session.user_id || ''
+  let userId = req.session.user_id || 'none'
   if (userId) {
     data.user_id = userId
   }

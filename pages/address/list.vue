@@ -79,6 +79,11 @@ export default {
         });
       });
     }
+
+    let item = this.$store.state.address;
+    if (item && item.id) {
+      this.chosenAddressId = item.id;
+    }
   }
 };
 </script>

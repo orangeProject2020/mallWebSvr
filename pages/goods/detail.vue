@@ -15,11 +15,11 @@
           <div class="goods-title text-black text-2xl">{{ goods.title }}</div>
           <div class="goods-price">
             <span class="text-red-500">{{ formatPrice(goods.price) }}</span>
-            <span class="text-gray-400 line-through">{{ formatPrice(goods.price) }}</span>
+            <span class="text-gray-400 line-through">{{ (goods.price_market / 100).toFixed(2) }}</span>
           </div>
         </van-cell>
         <van-cell class="goods-express text-gray-400">
-          <van-col span="10" class="text-gray-400">运费：</van-col>
+          <!-- <van-col span="10" class="text-gray-400">运费：</van-col> -->
           <van-col span="14" class="text-gray-400">剩余：{{ goods.stock }}</van-col>
         </van-cell>
       </van-cell-group>
@@ -86,6 +86,7 @@ export default {
       goods: {
         title: "",
         price: 0,
+        price_market: 0,
         cover: "",
         stock: "",
         express: "免运费",

@@ -10,8 +10,12 @@
       :error.sync="listData.error"
     >
       <van-cell v-for="item in listData.list" :key="item.id">
-        <template slot="title">收益金额: ￥{{(item.amount / 100).toFixed(2)}}</template>
-        <template slot="label">收益日期:{{ item.date }}</template>
+        <template slot="title">
+          <span v-if="item.type == 1">购买套餐分红:</span>
+          <span v-if="item.type == 2">平台每日分红:</span>
+          <span class="text-red-500">￥{{(item.amount / 100).toFixed(2)}}</span>
+        </template>
+        <template slot="label">日期:{{ item.date }}</template>
         <template slot="default">
           <span v-if="item.status == 0" class="text-red-500">未结算</span>
           <span v-if="item.status == 1">已结算</span>

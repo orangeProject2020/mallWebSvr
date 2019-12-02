@@ -8,14 +8,32 @@
       <!-- <div>{{businessId }}</div> -->
       <template v-for="item in values">
         <van-card
-          :title="item.title"
-          :desc="item.desc"
+          :desc="item.desc || item.description"
           :price="formatPrice(item.price)"
-          :thumb="item.cover"
           :num="item.num"
-        />
+        >
+          <template slot="title">
+            <span class="text-2xl text-black-50">{{item.title}}</span>
+          </template>
+          <template slot="thumb">
+            <img :src="item.thumb || item.cover" alt style="width:80px;height:80px" />
+          </template>
+        </van-card>
       </template>
     </template>
+
+    <van-cell-group class="mt-4" v-if="address.id > 0">
+      <van-cell title="收货地址选择"></van-cell>
+      <van-cell
+        :title="address.name + ' ' + address.tel"
+        icon="location-o"
+        is-link
+        value
+        :label="address.address"
+        class="mb-8"
+        @click="goToAddress"
+      ></van-cell>
+    </van-cell-group>
 
     <van-submit-bar :price="total" button-text="提交订单" @submit="onSubmit" :loading="submitLoading">
       <span slot="tip"></span>
@@ -37,7 +55,10 @@ export default {
       total: 0,
       business_id: [],
       itemsChecked: [],
-      submitLoading: false
+      submitLoading: false,
+      address: {
+        id: 0
+      }
     };
   },
   methods: {
@@ -57,6 +78,9 @@ export default {
       } else {
         this.$router.replace("/list");
       }
+    },
+    goToAddress() {
+      this.$router.push("/address/list?jump=1");
     },
     async onSubmit() {
       this.submitLoading = true;
@@ -82,7 +106,7 @@ export default {
 
       let submitData = {
         orders: orders,
-        address: {} // TODO
+        address: this.address
       };
 
       console.log("/onSubmit data", submitData);
@@ -144,6 +168,33 @@ export default {
           uniCart.cartItemMinus(item, item.num);
         }
       }
+    },
+    async getAddress() {
+      let item = this.$store.state.address;
+      if (!item || !item.id) {
+        let ret = await apis.addressList();
+        console.log("/getAddress ret:", ret);
+        if (ret.code == 0) {
+          let list = ret.data.rows;
+          if (list.length > 0) {
+            item = list[0];
+          }
+        }
+      }
+
+      if (item && item.id) {
+        this.address.id = item.id;
+        this.address.name = item.name;
+        this.address.tel = item.tel;
+        this.address.postalCode = item.postalCode;
+        this.address.province = item.province;
+        this.address.city = item.city;
+        this.address.county = item.county;
+        this.address.areaCode = item.areaCode;
+        this.address.address =
+          item.province + item.city + item.county + item.addressDetail;
+        console.log("/getAddress address:", this.address);
+      }
     }
   },
   created() {
@@ -176,6 +227,8 @@ export default {
     }
 
     this.total = total;
+
+    this.getAddress();
   }
 };
 </script>

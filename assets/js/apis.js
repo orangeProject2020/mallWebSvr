@@ -85,6 +85,10 @@ export default {
     let ret = await axios.post('/api/mall/order/cancel', data)
     return ret
   },
+  async finishOrder(data) {
+    let ret = await axios.post('/api/mall/order/finish', data)
+    return ret
+  },
   /**
    * 获取订单信息
    * @param {*} data 

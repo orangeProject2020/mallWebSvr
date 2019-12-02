@@ -31,12 +31,18 @@
                 <van-card
                   :price="(item.price / 100).toFixed(2)"
                   :desc="item.desc"
-                  :title="item.name"
-                  :thumb="item.cover"
+                  :num="item.num"
                   @click="goToDetail(order)"
                   v-for="item in order.items"
                   :key="item.id"
-                ></van-card>
+                >
+                  <template slot="title">
+                    <span class="text-2xl text-black-50">{{item.name}}</span>
+                  </template>
+                  <template slot="thumb" style="height:60px">
+                    <img :src="item.thumb || item.cover" alt style="width:60px;height:60px" />
+                  </template>
+                </van-card>
                 <van-cell>
                   <!-- 使用 title 插槽来自定义标题 -->
                   <template slot="title">
@@ -70,6 +76,7 @@
                       type="warning"
                       size="mini"
                       v-if="order.status == 2"
+                      @click="orderFinish(order)"
                     >确认收货</van-button>
                   </template>
                 </van-cell>
@@ -238,6 +245,38 @@ export default {
         // console.log(err);
         this.$toast.fail(err.message || "取消失败");
       }
+    },
+    async orderFinish(order) {
+      try {
+        let confirm = await this.$dialog.confirm({
+          title: "确认？",
+          message: "确认收货完成该订单"
+        });
+
+        if (confirm !== "confirm") {
+          return;
+        }
+      } catch (err) {
+        console.log("/orderComplete cancel");
+        return;
+      }
+
+      let data = {
+        id: order.id
+      };
+
+      try {
+        let ret = await apis.finishOrder(data);
+        console.log("/orderComplete ret:", ret);
+        if (ret.code === 0) {
+          this.$toast.success("确认订单完成成功");
+          this.statusChange(3);
+        } else {
+          throw new Error(ret.message);
+        }
+      } catch (err) {
+        this.$toast.fail(err.message || "确认订单完成失败");
+      }
     }
   },
   created() {
@@ -248,3 +287,12 @@ export default {
   }
 };
 </script>
+
+<style lang="less">
+.van-card__thumb {
+  height: 60px !important;
+}
+.van-card__content {
+  min-height: 60px !important;
+}
+</style>

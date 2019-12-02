@@ -30,7 +30,7 @@
             <span class="text-2xl text-black-50">{{item.title}}</span>
           </template>
           <template slot="thumb">
-            <img :src="item.cover" alt style="width:80px;height:80px" />
+            <img :src="item.thumb || item.cover" alt style="width:80px;height:80px" />
           </template>
           <template slot="tag">
             <template v-if="item.is_recommend">
