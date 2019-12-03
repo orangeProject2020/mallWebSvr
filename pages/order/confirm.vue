@@ -25,15 +25,16 @@
     <van-cell-group class="mt-4" v-if="address.id > 0">
       <van-cell title="收货地址选择"></van-cell>
       <van-cell
-        :title="address.name + ' ' + address.tel"
+        :title="address.name"
         icon="location-o"
         is-link
-        value
+        :value="address.tel"
         :label="address.address"
         class="mb-8"
         @click="goToAddress"
       ></van-cell>
     </van-cell-group>
+    <van-cell title="收货地址选择" icon="location-o" is-link class="mt-4" @click="goToAddress" v-else></van-cell>
 
     <van-submit-bar :price="total" button-text="提交订单" @submit="onSubmit" :loading="submitLoading">
       <span slot="tip"></span>
@@ -85,6 +86,11 @@ export default {
     async onSubmit() {
       this.submitLoading = true;
 
+      if (!this.address.id) {
+        this.$toast.fail("请选择收货地址");
+        this.submitLoading = false;
+        return;
+      }
       let orders = [];
       let businessData = this.businessData;
       Object.keys(businessData).forEach(businessId => {
