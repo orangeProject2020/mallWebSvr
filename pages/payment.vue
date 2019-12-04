@@ -155,10 +155,17 @@ export default {
     },
     async alipaySubmit() {
       try {
+        let returnUrl =
+          process.env.nodeEnv === "production"
+            ? process.env.apiDomain
+            : process.env.apiDomainLocal;
+        returnUrl += "/order/list?status=1";
+
         let alipayRet = await apis.alipaySumbit({
           out_trade_no: this.outTradeNo,
           subject: "支付金额: ￥" + (this.amount / 100).toFixed(2),
-          amount: this.amount
+          amount: this.amount,
+          return_url: returnUrl
         });
         console.log("/alipaySubmit ret:", JSON.stringify(alipayRet, null, 2));
         if (alipayRet.code === 0) {
