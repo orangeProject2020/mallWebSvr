@@ -19,6 +19,7 @@ const _3612672e = () => interopDefault(import('../pages/order/confirm.vue' /* we
 const _02b28138 = () => interopDefault(import('../pages/order/detail.vue' /* webpackChunkName: "pages/order/detail" */))
 const _8f44da76 = () => interopDefault(import('../pages/order/list.vue' /* webpackChunkName: "pages/order/list" */))
 const _64887eb7 = () => interopDefault(import('../pages/user/invite.vue' /* webpackChunkName: "pages/user/invite" */))
+const _9d72807a = () => interopDefault(import('../pages/user/msg.vue' /* webpackChunkName: "pages/user/msg" */))
 const _48610f1c = () => interopDefault(import('../pages/user/profit.vue' /* webpackChunkName: "pages/user/profit" */))
 const _19413690 = () => interopDefault(import('../pages/user/withdraw.vue' /* webpackChunkName: "pages/user/withdraw" */))
 const _719fc8bc = () => interopDefault(import('../pages/index.vue' /* webpackChunkName: "pages/index" */))
@@ -96,6 +97,10 @@ export const routerOptions = {
     path: "/user/invite",
     component: _64887eb7,
     name: "user-invite"
+  }, {
+    path: "/user/msg",
+    component: _9d72807a,
+    name: "user-msg"
   }, {
     path: "/user/profit",
     component: _48610f1c,
