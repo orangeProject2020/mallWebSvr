@@ -10,12 +10,20 @@ export default {
     let ret = await axios.post('/api/user/auth/register', data)
     return ret
   },
-  async getUserInfo() {
+  async getUserInfo(data) {
     let ret = await axios.post('/api/user/data/infoApp', data)
     return ret
   },
-  async addressList() {
-    let ret = await axios.post('/api/user/address/listUser')
+  async addressList(data) {
+    let ret = await axios.post('/api/user/address/listUser', data)
+    return ret
+  },
+  async getUserMsgList(data) {
+    let ret = await axios.post('/api/user/message/listUser', data)
+    return ret
+  },
+  async userMsgRead(data) {
+    let ret = await axios.post('/api/user/message/update', data)
     return ret
   },
   // async getAddressDetail(data) {
