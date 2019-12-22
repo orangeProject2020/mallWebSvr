@@ -14,8 +14,8 @@
         <van-cell>
           <div class="goods-title text-black text-2xl">{{ goods.title }}</div>
           <div class="goods-price">
-            <span class="text-red-500">{{ formatPrice(goods.price) }}</span>
-            <span class="text-gray-400 line-through">{{ (goods.price_market / 100).toFixed(2) }}</span>
+            <span class="text-red-500">￥{{ formatPrice(goods.price) }}</span>
+            <span class="text-gray-400 line-through">￥{{ (goods.price_market / 100).toFixed(2) }}</span>
           </div>
         </van-cell>
         <van-cell class="goods-express text-gray-400">
@@ -106,9 +106,6 @@ export default {
       }
 
       this.isLoading = false;
-    },
-    formatPrice() {
-      return "¥" + (this.goods.price / 100).toFixed(2);
     },
     navBack() {
       if (this.$store.state.isApp) {
