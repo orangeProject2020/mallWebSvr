@@ -84,13 +84,13 @@ module.exports = {
 
   env: {
     nodeEnv: process.env.NODE_ENV || 'development',
-    apiDomain: 'http://mall.jianpiane.com',
+    apiDomain: 'http://mall.sunonenight.com',
     apiDomainLocal: 'http://127.0.0.1:10013',
-    apiHttpHost: 'http://api.jianpiane.com',
+    apiHttpHost: 'http://api.sunonenight.com',
     apiHttpHostLocal: 'http://127.0.0.1:10000',
     appDownloadUrl: {
-      ios: 'http://img.jianpiane.com/appDownload/ios.ipa',
-      android: 'http://img.jianpiane.com/appDownload/android.apk'
+      ios: 'http://img.sunonenight.com/appDownload/ios.ipa',
+      android: 'http://img.sunonenight.com/appDownload/android.apk'
     }
   }
 }
