@@ -10,6 +10,10 @@ export default {
     let ret = await axios.post('/api/user/auth/register', data)
     return ret
   },
+  async getVerifyCode(data) {
+    let ret = await axios.post('/api/utils/sms/sendVerifyCode', data)
+    return ret
+  },
   async getUserInfo(data) {
     let ret = await axios.post('/api/user/data/infoApp', data)
     return ret

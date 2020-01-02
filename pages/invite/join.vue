@@ -30,16 +30,16 @@
           placeholder="请输入短信验证码"
           :error-message="errMsg.verify_code"
         >
-          <van-button slot="button" size="small" type="info"
-            >发送验证码</van-button
-          >
+          <van-button
+            slot="button"
+            size="small"
+            type="info"
+            @click="getVerifyCode"
+            :disabled="verifyCodeMsgBtn.disabled"
+          >{{verifyCodeMsgBtn.text}}</van-button>
         </van-field>
 
-        <van-field
-          v-model="submitData.invite_code"
-          label="邀请码"
-          :disabled="inviteCodeDisabled"
-        />
+        <van-field v-model="submitData.invite_code" label="邀请码" :disabled="inviteCodeDisabled" />
       </van-cell-group>
 
       <div class="mt-4 p-4">
@@ -50,8 +50,7 @@
           size="medium"
           :disabled="submitBtn.disabled"
           :loading="submitBtn.loading"
-          >立即注册</van-button
-        >
+        >立即注册</van-button>
       </div>
     </div>
   </div>
@@ -68,6 +67,11 @@ export default {
   },
   data() {
     return {
+      verifyCodeMsgBtn: {
+        disabled: false,
+        text: "发送验证码",
+        num: 60
+      },
       submitData: {
         mobile: "",
         password: "",
@@ -121,6 +125,36 @@ export default {
       // }
 
       return error ? true : false;
+    },
+    async getVerifyCode() {
+      if (this.submitData.mobile.length != 11) {
+        this.$toast.fail("请输入正确的手机号码");
+        return;
+      }
+      this.verifyCodeMsgBtn.disabled = true;
+      if (this.verifyCodeMsgBtn.num == 60) {
+        // 发送验证码
+        let ret = await apis.getVerifyCode({ mobile: this.submitData.mobile });
+        if (ret.code != 0) {
+          this.verifyCodeMsgBtn.num = 1;
+          this.$toast.fail(ret.message || "发送失败");
+        }
+      }
+      let num = this.verifyCodeMsgBtn.num - 1;
+
+      if (num == 0) {
+        this.verifyCodeMsgBtn.disabled = false;
+        num = 60;
+        this.verifyCodeMsgBtn.num = num;
+        this.verifyCodeMsgBtn.text = "发送验证码";
+      } else {
+        this.verifyCodeMsgBtn.text = `(${num})s后重发`;
+        // console.log("/getVerifyCode:", this.verifyCodeMsgBtn);
+        this.verifyCodeMsgBtn.num = num;
+        setTimeout(() => {
+          this.getVerifyCode();
+        }, 1000);
+      }
     },
     async onSubmit() {
       let checkRet = this.checkField();

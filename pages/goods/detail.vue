@@ -28,6 +28,19 @@
         <van-cell>
           <van-col span="24" class="text-gray-600">{{ goods.description }}</van-col>
         </van-cell>
+        <van-cell>
+          <van-col span="24">
+            <van-image
+              :src="pic"
+              v-for="pic in goods.pics"
+              style="width:100%;margin-top:0;margin-bottom:0;display:block;"
+            >
+              <template v-slot:loading>
+                <van-loading type="spinner" size="20" />
+              </template>
+            </van-image>
+          </van-col>
+        </van-cell>
       </van-cell-group>
     </van-pull-refresh>
 
@@ -189,6 +202,10 @@ export default {
         } else {
           this.buyCount = this.goods.stock == -1 ? 10000 : this.goods.stock;
         }
+
+        this.goods.pics = goodsRet.data.pics
+          ? goodsRet.data.pics.split(",")
+          : [];
       } else {
         this.$toast.fail("获取商品信息失败");
       }
