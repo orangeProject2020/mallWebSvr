@@ -81,6 +81,10 @@ export default {
     let ret = await axios.post('/api/user/invite/getCode')
     return ret
   },
+  async getUserAssets() {
+    let ret = await axios.post('/api/mall/user/infoAssets')
+    return ret
+  },
   /**
    * 创建订单
    * @param {*} data 

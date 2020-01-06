@@ -1,13 +1,8 @@
 <template>
   <div>
-    <van-nav-bar title="用户提现" left-text left-arrow @click-left="navBack"></van-nav-bar>
+    <van-nav-bar title="提现记录" left-text left-arrow @click-left="navBack"></van-nav-bar>
     <van-tabs v-model="statusActive" @click="statusChange">
-      <van-tab title="提现申请">
-        <div class="text-center p-4 text-2xl text-gray-500">
-          拥有提现道具
-          <span class="text-red-500 text-4xl">{{listData.count}}</span> 个
-        </div>
-      </van-tab>
+      <van-tab title="未通过"></van-tab>
       <van-tab title="审核中"></van-tab>
       <van-tab title="已完成"></van-tab>
     </van-tabs>
@@ -23,16 +18,12 @@
         <van-cell v-for="item in listData.list" :key="item.id">
           <div class="p-3">
             <div v-if="item.status == 0 || item.status == -1">
-              <div class>提现卡</div>
               <div>
-                可提金额:
+                提现金额:
                 <span class="text-red-500">￥{{(item.amount/100).toFixed(2)}}</span>
               </div>
-              <div>发放时间: {{ dateFormat(item.create_time)}}</div>
+              <div>申请时间: {{ dateFormat(item.apply_time)}}</div>
               <div v-if="item.status == -1">审核未通过，理由: {{item.audit_reason}}</div>
-              <div class="text-right">
-                <van-button type="danger" size="small" @click="withdrawApply(item)">提交申请</van-button>
-              </div>
             </div>
             <div v-if="item.status == 1">
               <div>
@@ -67,12 +58,12 @@ import utils from "@/assets/js/utils";
 export default {
   head() {
     return {
-      title: "用户提现"
+      title: "提现记录"
     };
   },
   data() {
     return {
-      statusActive: 0,
+      statusActive: 1,
       listData: {
         list: [],
         count: 0,
@@ -156,7 +147,7 @@ export default {
     }
   },
   created() {
-    let status = this.$route.query.status || "0";
+    let status = this.$route.query.status || "1";
     console.log("/created status", status);
     this.statusChange(parseInt(status));
   }

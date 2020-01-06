@@ -4,11 +4,12 @@
       <van-icon name="wap-home-o" slot="right" size="20" />
     </van-nav-bar>
     <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
-      <van-image :src="goods.cover">
+      <van-image :src="goods.cover" v-if="goods.cover">
         <template v-slot:loading>
           <van-loading type="spinner" size="20" />
         </template>
       </van-image>
+      <div v-else style="height:750rpx;background:#fafafa;"></div>
 
       <van-cell-group>
         <van-cell>
@@ -69,7 +70,7 @@
         <div class="p-8">
           <van-button
             round
-            color="linear-gradient(to right, #ff8917, #ff6034)"
+            color="linear-gradient(to right, #ff6034, #ee0a24)"
             block
             @click="doAction"
           >确定</van-button>
@@ -97,7 +98,7 @@ export default {
       actionType: 0,
       num: 1,
       goods: {
-        title: "",
+        title: "商品名称",
         price: 0,
         price_market: 0,
         cover: "",
@@ -189,6 +190,9 @@ export default {
     },
     onClickIcon() {
       // Toast("点击图标");
+      // location.href = "tel:18676669410";
+      console.log("/phoneNumber", process.env.phoneNumber);
+      plus.device.dial(process.env.phoneNumber, true);
     },
 
     async getGoodsInfo(id) {

@@ -22,6 +22,7 @@ const _64887eb7 = () => interopDefault(import('../pages/user/invite.vue' /* webp
 const _9d72807a = () => interopDefault(import('../pages/user/msg.vue' /* webpackChunkName: "pages/user/msg" */))
 const _48610f1c = () => interopDefault(import('../pages/user/profit.vue' /* webpackChunkName: "pages/user/profit" */))
 const _19413690 = () => interopDefault(import('../pages/user/withdraw.vue' /* webpackChunkName: "pages/user/withdraw" */))
+const _6acade74 = () => interopDefault(import('../pages/user/withdrawApply.vue' /* webpackChunkName: "pages/user/withdrawApply" */))
 const _719fc8bc = () => interopDefault(import('../pages/index.vue' /* webpackChunkName: "pages/index" */))
 
 Vue.use(Router)
@@ -109,6 +110,10 @@ export const routerOptions = {
     path: "/user/withdraw",
     component: _19413690,
     name: "user-withdraw"
+  }, {
+    path: "/user/withdrawApply",
+    component: _6acade74,
+    name: "user-withdrawApply"
   }, {
     path: "/",
     component: _719fc8bc,
