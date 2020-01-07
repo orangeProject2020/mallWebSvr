@@ -32,7 +32,7 @@
                   :price="(item.price / 100).toFixed(2)"
                   :desc="item.desc"
                   :num="item.num"
-                  @click="goToDetail(order)"
+                  @click-thumb="goToDetail(order)"
                   v-for="item in order.items"
                   :key="item.id"
                 >
@@ -42,12 +42,22 @@
                   <template slot="thumb" style="height:60px">
                     <img :src="item.thumb || item.cover" alt style="width:60px;height:60px" />
                   </template>
+                  <template slot="footer">
+                    <van-button
+                      size="mini"
+                      type="danger"
+                      plain
+                      v-if="item.status == 0 || item.status == 1 || item.status == 2"
+                      @click="navToAfter(item)"
+                    >申请售后</van-button>
+                  </template>
                 </van-card>
                 <van-cell>
-                  <!-- 使用 title 插槽来自定义标题 -->
                   <template slot="title">
-                    <span>总计:</span>
-                    <span class="text-red-700">￥{{ (order.total / 100).toFixed(2) }}</span>
+                    <div @click="goToDetail(order)">
+                      <span>总计:</span>
+                      <span class="text-red-700">￥{{ (order.total / 100).toFixed(2) }}</span>
+                    </div>
                   </template>
                   <template slot="default">
                     <van-button
@@ -146,6 +156,9 @@ export default {
       } else {
         this.$router.go(-1);
       }
+    },
+    navToAfter(item) {
+      this.$router.push("/after/apply?id=" + item.id);
     },
     async onRefresh() {
       this.isLoading = true;

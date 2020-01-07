@@ -11,6 +11,8 @@ const _1be0cb70 = () => interopDefault(import('../pages/payment.vue' /* webpackC
 const _ebddd4c4 = () => interopDefault(import('../pages/protocol.vue' /* webpackChunkName: "pages/protocol" */))
 const _e8bc5542 = () => interopDefault(import('../pages/address/list.vue' /* webpackChunkName: "pages/address/list" */))
 const _4211a9ca = () => interopDefault(import('../pages/address/update.vue' /* webpackChunkName: "pages/address/update" */))
+const _ea03d136 = () => interopDefault(import('../pages/after/apply.vue' /* webpackChunkName: "pages/after/apply" */))
+const _a99ad812 = () => interopDefault(import('../pages/after/list.vue' /* webpackChunkName: "pages/after/list" */))
 const _fc6c94b6 = () => interopDefault(import('../pages/demo/page.vue' /* webpackChunkName: "pages/demo/page" */))
 const _10482b20 = () => interopDefault(import('../pages/download/app.vue' /* webpackChunkName: "pages/download/app" */))
 const _9370c7a0 = () => interopDefault(import('../pages/goods/detail.vue' /* webpackChunkName: "pages/goods/detail" */))
@@ -21,6 +23,7 @@ const _8f44da76 = () => interopDefault(import('../pages/order/list.vue' /* webpa
 const _64887eb7 = () => interopDefault(import('../pages/user/invite.vue' /* webpackChunkName: "pages/user/invite" */))
 const _9d72807a = () => interopDefault(import('../pages/user/msg.vue' /* webpackChunkName: "pages/user/msg" */))
 const _48610f1c = () => interopDefault(import('../pages/user/profit.vue' /* webpackChunkName: "pages/user/profit" */))
+const _5519188e = () => interopDefault(import('../pages/user/profitRule.vue' /* webpackChunkName: "pages/user/profitRule" */))
 const _19413690 = () => interopDefault(import('../pages/user/withdraw.vue' /* webpackChunkName: "pages/user/withdraw" */))
 const _6acade74 = () => interopDefault(import('../pages/user/withdrawApply.vue' /* webpackChunkName: "pages/user/withdrawApply" */))
 const _719fc8bc = () => interopDefault(import('../pages/index.vue' /* webpackChunkName: "pages/index" */))
@@ -67,6 +70,14 @@ export const routerOptions = {
     component: _4211a9ca,
     name: "address-update"
   }, {
+    path: "/after/apply",
+    component: _ea03d136,
+    name: "after-apply"
+  }, {
+    path: "/after/list",
+    component: _a99ad812,
+    name: "after-list"
+  }, {
     path: "/demo/page",
     component: _fc6c94b6,
     name: "demo-page"
@@ -106,6 +117,10 @@ export const routerOptions = {
     path: "/user/profit",
     component: _48610f1c,
     name: "user-profit"
+  }, {
+    path: "/user/profitRule",
+    component: _5519188e,
+    name: "user-profitRule"
   }, {
     path: "/user/withdraw",
     component: _19413690,

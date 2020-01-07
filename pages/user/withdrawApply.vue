@@ -27,6 +27,15 @@
           </template>
         </van-cell>
       </van-cell-group>
+
+      <van-row class="p-6 text-lg">
+        <van-col span="24">基础规则，用户提现页面输入提现金额时，单次不足200，不予提现，大于200时，消耗对应提现额度，并根据提现金额，收取1%的提现手续费。</van-col>
+        <van-col span="24" class="mt-4">用户如需提现，需消耗提现额度，根据推荐其他用户购买套餐并确认收货即可获得提现额度，推荐用户购买套餐获取提现额度规则如下：</van-col>
+        <van-col span="24">推荐1用户购买A套餐，获得200提现额度；</van-col>
+        <van-col span="24">推荐1用户购买B套餐，获得400提现额度；</van-col>
+        <van-col span="24">推荐1用户购买C套餐，获得800提现额度；</van-col>
+        <van-col span="24">推荐1用户购买D套餐，获得2000提现额度；</van-col>
+      </van-row>
     </div>
 
     <div class="fixed bottom-0 w-full">
