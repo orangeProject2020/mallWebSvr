@@ -133,7 +133,7 @@ export async function setContext (app, context) {
       payload: context.payload,
       error: context.error,
       base: '/',
-      env: {"nodeEnv":"production","apiDomain":"http://mall.sunonenight.com","apiDomainLocal":"http://127.0.0.1:10013","apiHttpHost":"http://api.sunonenight.com","apiHttpHostLocal":"http://127.0.0.1:10000","appDownloadUrl":{"ios":"http://img.sunonenight.com/appDownload/ios.ipa","android":"http://img.sunonenight.com/appDownload/android.apk"},"phoneNumber":"18676669410"}
+      env: {"nodeEnv":"production","apiDomain":"http://mall.sunonenight.com","apiDomainLocal":"http://127.0.0.1:10013","apiHttpHost":"http://api.sunonenight.com","apiHttpHostLocal":"http://127.0.0.1:10000","appDownloadUrl":{"ios":"http://img.sunonenight.com/appDownload/ios.ipa","android":"http://img.sunonenight.com/appDownload/android.apk"},"phoneNumber":"13728918850"}
     }
     // Only set once
     if (context.req) {
