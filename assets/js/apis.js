@@ -137,6 +137,10 @@ export default {
     let ret = await axios.post('/api/utils/alipay/wapPay', data)
     return ret
   },
+  async wxpaySumbit(data) {
+    let ret = await axios.post('/api/utils/wxpay/h5Pay', data)
+    return ret
+  },
 
   async getInviteList(data) {
     let ret = await axios.post('/api/user/invite/list', data)

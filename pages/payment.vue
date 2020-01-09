@@ -138,6 +138,7 @@ export default {
             console.log("/onSubmit paymentId", this.paymentId);
             if (this.payMethod == 1) {
               // 微信支付
+              this.wxpaySubmit();
             } else {
               // 支付宝
               await this.alipaySubmit();
@@ -182,7 +183,36 @@ export default {
         return false;
       }
     },
-    async wxpaySubmit() {},
+    async wxpaySubmit() {
+      try {
+        let returnUrl =
+          process.env.nodeEnv === "production"
+            ? process.env.apiDomain
+            : process.env.apiDomainLocal;
+        returnUrl += "/order/list?status=1";
+
+        let wxpayRet = await apis.wxpaySumbit({
+          out_trade_no: this.outTradeNo,
+          body: "时不我待",
+          subject: "订单支付",
+          amount: this.amount,
+          return_url: returnUrl
+        });
+        console.log("/wxpaySubmit ret:", JSON.stringify(wxpayRet, null, 2));
+        if (alipayRet.code === 0) {
+          let action = wxpayRet.data.action;
+          console.log("/alipaySubmit action:", action);
+          location.href = action;
+          // return action
+        } else {
+          throw new Error(wxpayRet.message || "调用支付宝失败");
+        }
+      } catch (err) {
+        console.error(err.message);
+        this.$toast.fail(err.message || "调用支付宝失败");
+        return false;
+      }
+    },
     navBack() {
       if (this.$store.state.isApp) {
         uni.navigateBack();

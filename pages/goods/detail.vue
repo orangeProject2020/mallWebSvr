@@ -35,6 +35,7 @@
               :src="pic"
               v-for="pic in goods.pics"
               style="width:100%;margin-top:0;margin-bottom:0;display:block;"
+              :key="pic"
             >
               <template v-slot:loading>
                 <van-loading type="spinner" size="20" />
