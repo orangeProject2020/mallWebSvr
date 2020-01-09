@@ -26,7 +26,9 @@
     </template>-->
     <div class="p-8 text-center">
       <div class="text-xl text-gray-500">需支付金额</div>
-      <div class="text-6xl text-red-600 mt-4 mb-8">￥ {{ (amount / 100).toFixed(2) }}</div>
+      <div class="text-6xl text-red-600 mt-4 mb-8">
+        ￥ {{ (amount / 100).toFixed(2) }}
+      </div>
     </div>
 
     <van-cell
@@ -199,17 +201,17 @@ export default {
           return_url: returnUrl
         });
         console.log("/wxpaySubmit ret:", JSON.stringify(wxpayRet, null, 2));
-        if (alipayRet.code === 0) {
+        if (wxpayRet.code === 0) {
           let action = wxpayRet.data.action;
-          console.log("/alipaySubmit action:", action);
+          console.log("/wxpaySubmit action:", action);
           location.href = action;
           // return action
         } else {
-          throw new Error(wxpayRet.message || "调用支付宝失败");
+          throw new Error(wxpayRet.message || "调用微信支付失败");
         }
       } catch (err) {
         console.error(err.message);
-        this.$toast.fail(err.message || "调用支付宝失败");
+        this.$toast.fail(err.message || "调用微信支付失败！");
         return false;
       }
     },
