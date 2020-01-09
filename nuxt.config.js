@@ -92,6 +92,6 @@ module.exports = {
       ios: 'http://img.sunonenight.com/appDownload/ios.ipa',
       android: 'http://img.sunonenight.com/appDownload/android.apk'
     },
-    phoneNumber: '18676669410'
+    phoneNumber: '13728918850'
   }
 }
