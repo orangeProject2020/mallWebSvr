@@ -89,8 +89,8 @@ module.exports = {
     apiHttpHost: 'http://api.sunonenight.com',
     apiHttpHostLocal: 'http://127.0.0.1:10000',
     appDownloadUrl: {
-      ios: 'http://img.sunonenight.com/appDownload/ios.ipa',
-      android: 'http://img.sunonenight.com/appDownload/android.apk'
+      ios: 'https://www.pgyer.com/lXGd',
+      android: 'https://www.pgyer.com/bYfq'
     },
     phoneNumber: '13728918850'
   }
