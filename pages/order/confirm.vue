@@ -203,7 +203,7 @@ export default {
       }
     }
   },
-  created() {
+  async created() {
     let orderDatas = this.$store.state.orderDatas || [];
     console.log("/create orderDatas", orderDatas);
     if (orderDatas.length === 0) {

@@ -47,7 +47,7 @@
                       size="mini"
                       type="danger"
                       plain
-                      v-if="item.status == 0 || item.status == 1 || item.status == 2"
+                      v-if="item.afterApply"
                       @click="navToAfter(item)"
                     >申请售后</van-button>
                   </template>
@@ -200,6 +200,7 @@ export default {
           let orders = orderRet.data.rows;
           if (orders.length) {
             orders.forEach(order => {
+              this.orderAfterSet(order);
               this.orders.push(order);
             });
             this.page += 1;
@@ -210,11 +211,40 @@ export default {
           throw new Error(orderRet.message);
         }
       } catch (err) {
+        console.error("/listLoad err:", err);
         this.$toast.fail(err.message || err);
         this.listError = true;
       }
+      console.log("/listLoad orders", this.orders);
 
       this.listLoading = false;
+    },
+    orderAfterSet(order) {
+      let afterApply = false;
+      let orderStatus = order.status;
+      let now = parseInt(Date.now() / 1000);
+      order.items.forEach(item => {
+        if (orderStatus == 1 || orderStatus == 2 || orderStatus == 3) {
+          if (orderStatus == 3) {
+            let closeTime = item.close_time;
+            let afterTimeLimit = closeTime + 7 * 24 * 3600;
+            // this.deadline = closeTime;
+            if (now > afterTimeLimit) {
+              item.afterApply = false;
+            } else {
+              item.afterApply = true;
+            }
+          } else {
+            item.afterApply = true;
+          }
+
+          if (item.package_level > 0) {
+            item.afterApply = false;
+          }
+        } else {
+          item.afterApply = false;
+        }
+      });
     },
     goToDetail(item) {
       let url = "/order/detail?id=" + item.id;

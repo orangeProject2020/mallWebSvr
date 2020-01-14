@@ -146,7 +146,20 @@ export default {
       this.actionType = 1;
       this.show = true;
     },
-    goBuy() {
+    async goBuy() {
+      // 检测是否登录
+      let retCheckAuth = await apis.authCheck();
+      console.log(
+        "/create retCheckAuth",
+        JSON.stringify(retCheckAuth, null, 2)
+      );
+      if (retCheckAuth.code) {
+        uni.navigateTo({
+          url: "/pages/auth/login"
+        });
+        return;
+      }
+
       if (!this.goods.id) {
         this.$toast.fail("商品信息获取失败，请稍后刷新重试");
         return;

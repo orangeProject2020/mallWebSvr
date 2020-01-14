@@ -184,6 +184,19 @@ export default {
       this.total = total;
     },
     async onSubmit() {
+      // 检测是否登录
+      let retCheckAuth = await apis.authCheck();
+      console.log(
+        "/create retCheckAuth",
+        JSON.stringify(retCheckAuth, null, 2)
+      );
+      if (retCheckAuth.code) {
+        uni.navigateTo({
+          url: "/pages/auth/login"
+        });
+        return;
+      }
+
       if (this.result.length <= 0) {
         this.$toast("请选择待提交商品");
         return;

@@ -8,6 +8,20 @@ router.get('/area', (req, res) => {
   return res.json(area)
 })
 
+router.post('/auth/check', async (req, res) => {
+  if (!req.session.user_id) {
+    return res.json({
+      code: 1,
+      message: ''
+    })
+  } else {
+    return res.json({
+      code: 0,
+      message: ''
+    })
+  }
+})
+
 router.use((req, res, next) => {
   req.checkUser = (req, res) => {
     if (!req.session.user_id) {

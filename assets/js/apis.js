@@ -2,6 +2,14 @@ import axios from '@/server/axios';
 
 export default {
 
+  async upload(data) {
+    let ret = await axios.post('/api/upload/base64', data)
+    return ret
+  },
+  async authCheck() {
+    let ret = await axios.post('/api/auth/check', {})
+    return ret
+  },
   /**
    * 注册
    * @param {*} data 
@@ -16,6 +24,10 @@ export default {
   },
   async getUserInfo(data) {
     let ret = await axios.post('/api/user/data/infoApp', data)
+    return ret
+  },
+  async getUserNoReadMsgCount() {
+    let ret = await axios.post('/api/user/message/noReadCount', {})
     return ret
   },
   async addressList(data) {
@@ -159,6 +171,15 @@ export default {
 
   async getProfitList(data) {
     let ret = await axios.post('/api/mall/profit/list', data)
+    return ret
+  },
+
+  async getAfterInfo(data) {
+    let ret = await axios.post('/api/mall/after/info', data)
+    return ret
+  },
+  async afterApplySubmit(data) {
+    let ret = await axios.post('/api/mall/after/apply', data)
     return ret
   }
 }
