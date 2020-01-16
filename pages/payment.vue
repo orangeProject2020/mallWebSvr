@@ -26,9 +26,7 @@
     </template>-->
     <div class="p-8 text-center">
       <div class="text-xl text-gray-500">需支付金额</div>
-      <div class="text-6xl text-red-600 mt-4 mb-8">
-        ￥ {{ (amount / 100).toFixed(2) }}
-      </div>
+      <div class="text-6xl text-red-600 mt-4 mb-8">￥ {{ (amount / 100).toFixed(2) }}</div>
     </div>
 
     <van-cell
@@ -204,6 +202,20 @@ export default {
         if (wxpayRet.code === 0) {
           let action = wxpayRet.data.action;
           console.log("/wxpaySubmit action:", action);
+
+          this.$dialog
+            .confirm({
+              title: "确认支付",
+              message: "该订单已在微信支付支付成功!"
+            })
+            .then(() => {
+              // on confirm
+              this.$router.replace("/order/list?status=1");
+            })
+            .catch(() => {
+              // on cancel
+              this.$router.replace("/order/list?status=0");
+            });
           location.href = action;
           // return action
         } else {
