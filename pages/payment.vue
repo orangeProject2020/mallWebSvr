@@ -203,19 +203,22 @@ export default {
           let action = wxpayRet.data.action;
           console.log("/wxpaySubmit action:", action);
 
-          this.$dialog
-            .confirm({
-              title: "确认支付",
-              message: "该订单已在微信支付支付成功!"
-            })
-            .then(() => {
-              // on confirm
-              this.$router.replace("/order/list?status=1");
-            })
-            .catch(() => {
-              // on cancel
-              this.$router.replace("/order/list?status=0");
-            });
+          setTimeout(() => {
+            this.$dialog
+              .confirm({
+                title: "确认支付",
+                message: "该订单已在微信支付支付成功!"
+              })
+              .then(() => {
+                // on confirm
+                this.$router.replace("/order/list?status=1");
+              })
+              .catch(() => {
+                // on cancel
+                this.$router.replace("/order/list?status=0");
+              });
+          }, 1000);
+
           location.href = action;
           // return action
         } else {
