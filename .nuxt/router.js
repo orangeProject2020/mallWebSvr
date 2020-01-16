@@ -20,6 +20,7 @@ const _769717da = () => interopDefault(import('../pages/invite/join.vue' /* webp
 const _3612672e = () => interopDefault(import('../pages/order/confirm.vue' /* webpackChunkName: "pages/order/confirm" */))
 const _02b28138 = () => interopDefault(import('../pages/order/detail.vue' /* webpackChunkName: "pages/order/detail" */))
 const _8f44da76 = () => interopDefault(import('../pages/order/list.vue' /* webpackChunkName: "pages/order/list" */))
+const _1ff43b40 = () => interopDefault(import('../pages/pay/finish.vue' /* webpackChunkName: "pages/pay/finish" */))
 const _64887eb7 = () => interopDefault(import('../pages/user/invite.vue' /* webpackChunkName: "pages/user/invite" */))
 const _9d72807a = () => interopDefault(import('../pages/user/msg.vue' /* webpackChunkName: "pages/user/msg" */))
 const _48610f1c = () => interopDefault(import('../pages/user/profit.vue' /* webpackChunkName: "pages/user/profit" */))
@@ -105,6 +106,10 @@ export const routerOptions = {
     path: "/order/list",
     component: _8f44da76,
     name: "order-list"
+  }, {
+    path: "/pay/finish",
+    component: _1ff43b40,
+    name: "pay-finish"
   }, {
     path: "/user/invite",
     component: _64887eb7,

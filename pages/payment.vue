@@ -203,23 +203,13 @@ export default {
           let action = wxpayRet.data.action;
           console.log("/wxpaySubmit action:", action);
 
-          setTimeout(() => {
-            this.$dialog
-              .confirm({
-                title: "确认支付",
-                message: "该订单已在微信支付支付成功!"
-              })
-              .then(() => {
-                // on confirm
-                this.$router.replace("/order/list?status=1");
-              })
-              .catch(() => {
-                // on cancel
-                this.$router.replace("/order/list?status=0");
-              });
-          }, 1000);
-
-          location.href = action;
+          let domain =
+            process.env.nodeEnv == "production"
+              ? process.env.apiDomain
+              : process.env.apiDomainLocal;
+          let redirectUrl = domain + "/pay/finish";
+          console.log("/wxpaySubmit redirectUrl:", redirectUrl);
+          location.href = action + "&redirect_url=" + encodeURI(redirectUrl);
           // return action
         } else {
           throw new Error(wxpayRet.message || "调用微信支付失败");
@@ -287,7 +277,7 @@ export default {
   },
   async created() {
     this.$toast.loading({
-      message: "加载中...",
+      message: "订单数据加载中...",
       forbidClick: true,
       loadingType: "spinner"
     });
@@ -346,7 +336,7 @@ export default {
       this.score = score;
 
       this.$toast.clear();
-    }, 1500);
+    }, 1000);
   }
 };
 </script>
