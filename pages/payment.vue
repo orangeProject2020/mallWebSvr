@@ -286,57 +286,67 @@ export default {
     }
   },
   async created() {
-    let orderIds = this.$route.query.orderIds || this.$route.query.orderId;
-    orderIds = orderIds.split(",");
-    if (orderIds.length === 0) {
-      this.failMessage("获取订单信息错误");
-      return;
-    }
-    this.orders = [];
-    for (let index = 0; index < orderIds.length; index++) {
-      let orderId = orderIds[index];
-      this.orderIds.push(orderId);
-      try {
-        let orderRet = await apis.getOrder({ id: orderId });
-        if (orderRet.code == 0) {
-          this.orders.push(orderRet.data);
-        } else {
-          console.log(orderId, orderRet.message);
-          throw new Error("获取订单信息错误");
-        }
-      } catch (err) {
-        this.failMessage("获取订单信息错误!");
+    this.$toast.loading({
+      message: "加载中...",
+      forbidClick: true,
+      loadingType: "spinner"
+    });
+
+    setTimeout(async () => {
+      let orderIds = this.$route.query.orderIds || this.$route.query.orderId;
+      orderIds = orderIds.split(",");
+      if (orderIds.length === 0) {
+        this.failMessage("获取订单信息错误");
         return;
       }
-    }
-
-    console.log("/create orders", this.orders);
-    let total = 0;
-    let amount = 0;
-    let score = 0;
-    this.orders.forEach(order => {
-      if (order.status != 0) {
-        // this.failMessage("订单已支付！");
-        this.$dialog
-          .alert({
-            title: "提示",
-            message: "订单已支付！"
-          })
-          .then(() => {
-            // on close
-            this.$$router.replace("/order/list?status=1");
-          })
-          .catch(() => {
-            this.$router.replace("/order/list?status=0");
-          });
+      this.orders = [];
+      for (let index = 0; index < orderIds.length; index++) {
+        let orderId = orderIds[index];
+        this.orderIds.push(orderId);
+        try {
+          let orderRet = await apis.getOrder({ id: orderId });
+          if (orderRet.code == 0) {
+            this.orders.push(orderRet.data);
+          } else {
+            console.log(orderId, orderRet.message);
+            throw new Error("获取订单信息错误");
+          }
+        } catch (err) {
+          this.failMessage("获取订单信息错误!");
+          return;
+        }
       }
-      total += order.total;
-      score += order.score;
-      amount += order.total - order.score;
-    });
-    this.total = total;
-    this.amount = amount;
-    this.score = score;
+
+      console.log("/create orders", this.orders);
+      let total = 0;
+      let amount = 0;
+      let score = 0;
+      this.orders.forEach(order => {
+        if (order.status != 0) {
+          // this.failMessage("订单已支付！");
+          this.$dialog
+            .alert({
+              title: "提示",
+              message: "订单已支付！"
+            })
+            .then(() => {
+              // on close
+              this.$$router.replace("/order/list?status=1");
+            })
+            .catch(() => {
+              this.$router.replace("/order/list?status=0");
+            });
+        }
+        total += order.total;
+        score += order.score;
+        amount += order.total - order.score;
+      });
+      this.total = total;
+      this.amount = amount;
+      this.score = score;
+
+      this.$toast.clear();
+    }, 1500);
   }
 };
 </script>
