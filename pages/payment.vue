@@ -316,7 +316,19 @@ export default {
     let score = 0;
     this.orders.forEach(order => {
       if (order.status != 0) {
-        this.failMessage("已有订单处于不需要支付状态！");
+        // this.failMessage("订单已支付！");
+        this.$dialog
+          .alert({
+            title: "提示",
+            message: "订单已支付！"
+          })
+          .then(() => {
+            // on close
+            this.$$router.replace("/order/list?status=1");
+          })
+          .catch(() => {
+            this.$router.replace("/order/list?status=0");
+          });
       }
       total += order.total;
       score += order.score;
