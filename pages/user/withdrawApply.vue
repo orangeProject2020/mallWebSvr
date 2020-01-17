@@ -36,9 +36,9 @@
           class="mt-4"
         >用户如需提现，需消耗提现额度，根据推荐其他用户购买套餐并确认收货即可获得提现额度，推荐用户购买套餐获取提现额度规则如下：：</van-col>
         <van-col span="24" class="mt-4">推荐1用户购买特惠A套餐，获得200提现额度；</van-col>
-        <van-col span="24">推荐1用户购买特惠B套餐，获得400提现额度；</van-col>
-        <van-col span="24">推荐1用户购买特惠C套餐，获得800提现额度；</van-col>
-        <van-col span="24">推荐1用户购买特惠D套餐，获得2000提现额度；</van-col>
+        <van-col span="24">推荐1用户购买特惠B套餐，获得500提现额度；</van-col>
+        <van-col span="24">推荐1用户购买特惠C套餐，获得1000提现额度；</van-col>
+        <van-col span="24">推荐1用户购买特惠D套餐，获得2500提现额度；</van-col>
       </van-row>
     </div>
 
