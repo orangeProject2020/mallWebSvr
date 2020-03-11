@@ -50,7 +50,9 @@
         <van-cell title="选择退换货理由" is-link @click="selectReasonClick">
           <template slot="default" v-if="detail.after.reason">{{detail.after.reason}}</template>
         </van-cell>
-        <van-cell title="上传图片">
+        <van-field v-model="expressInfo.company" placeholder="请输入退换货物流公司" label="物流公司" required />
+        <van-field v-model="expressInfo.no" placeholder="请输入退换货物流单号" label="物流单号" required />
+        <!-- <van-cell title="上传图片">
           <template slot="label">
             <van-uploader
               v-model="fileList"
@@ -60,7 +62,7 @@
               :max-size="2048000"
             />
           </template>
-        </van-cell>
+        </van-cell>-->
       </van-cell-group>
 
       <van-cell-group v-if="detail.after.id">
@@ -72,14 +74,20 @@
         <van-cell title="退换货理由">
           <template slot="default" v-if="detail.after.reason">{{detail.after.reason}}</template>
         </van-cell>
-        <van-cell title="图片">
+        <!-- <van-cell title="图片">
           <template slot="label"></template>
-        </van-cell>
+        </van-cell>-->
         <van-cell title="售后单号">
           <template slot="default">{{detail.after.after_no}}</template>
         </van-cell>
         <van-cell title="提交时间">
           <template slot="default">{{dateFormat(detail.after.create_time)}}</template>
+        </van-cell>
+        <van-cell title="物流公司">
+          <template slot="default">{{detail.after.express_info.company}}</template>
+        </van-cell>
+        <van-cell title="物流单号">
+          <template slot="default">{{detail.after.express_info.no}}</template>
         </van-cell>
         <van-cell title="状态">
           <template slot="default">
@@ -132,7 +140,10 @@ export default {
       afterTypeText: "",
       selectTypeData: {
         show: false,
-        actions: [{ name: "退货", val: 1 }, { name: "换货", val: 2 }]
+        actions: [
+          { name: "退货", val: 1 },
+          { name: "换货", val: 2 }
+        ]
       },
       selectReasonData: {
         show: false,
@@ -153,7 +164,11 @@ export default {
       },
       applyCan: true,
 
-      titleMsg: ""
+      titleMsg: "",
+      expressInfo: {
+        company: "",
+        no: ""
+      }
     };
   },
   methods: {
@@ -195,7 +210,10 @@ export default {
             this.afterTypeText = this.selectTypeData.actions[
               ret.data.after.type
             ].name;
-
+            this.detail.after.express_info = this.detail.after.express_info
+              ? JSON.parse(this.detail.after.express_info)
+              : {};
+            console.log(this.detail.after);
             this.getDeadline();
           }
         } else {
@@ -270,7 +288,13 @@ export default {
       try {
         let data = this.detail.after;
         data.order_item_id = this.orderItemId;
-        if (!data.type || !data.reason) {
+        data.express_info = JSON.stringify(this.expressInfo);
+        if (
+          !data.type ||
+          !data.reason ||
+          !this.expressInfo.company ||
+          !this.expressInfo.no
+        ) {
           throw new Error("提交信息不完整");
         }
         let ret = await apis.afterApplySubmit(data);

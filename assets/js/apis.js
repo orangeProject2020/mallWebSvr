@@ -178,6 +178,10 @@ export default {
     let ret = await axios.post('/api/mall/after/info', data)
     return ret
   },
+  async getAfterList(data) {
+    let ret = await axios.post('/api/mall/after/list', data)
+    return ret
+  },
   async afterApplySubmit(data) {
     let ret = await axios.post('/api/mall/after/apply', data)
     return ret

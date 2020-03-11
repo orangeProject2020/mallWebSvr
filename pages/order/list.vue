@@ -224,7 +224,7 @@ export default {
       let orderStatus = order.status;
       let now = parseInt(Date.now() / 1000);
       order.items.forEach(item => {
-        if (orderStatus == 1 || orderStatus == 2 || orderStatus == 3) {
+        if (orderStatus == 3) {
           if (orderStatus == 3) {
             let closeTime = item.close_time;
             let afterTimeLimit = closeTime + 7 * 24 * 3600;
